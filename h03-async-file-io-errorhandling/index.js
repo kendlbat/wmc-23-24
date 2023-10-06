@@ -87,7 +87,7 @@ function readKlassenAsync(cbk) {
 function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
     let result = schuelerInnen;
     if (searchStr) {
-        if (searchStr.length() < 3)
+        if (searchStr.length < 3)
             throw new Error('searchStr muss mindestens 3 Zeichen umfassen');
 
         result = schuelerInnen.filter(s => s.nachname.includes(searchStr) || s.vorname.includes(searchStr));
@@ -102,8 +102,37 @@ function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
     });
 }
 
+/**
+ * @param {Array<SchuelerIn>} schuelerInnen
+ * @param {Array<Klasse>} klassenRaeume
+ * @param {string} searchStr
+ * @param {(error: string, data: Array<{ nachname: string; vorname: string; raum: string | undefined;  }>) => unknown} cbk
+ * @returns {void}
+ */
+function filterAndMergeAsync(schuelerInnen, klassenRaeume, searchStr, cbk) {
+    let result = schuelerInnen;
+    if (searchStr) {
+        if (searchStr.length < 3) {
+            cbk('searchStr muss mindestens 3 Zeichen umfassen', null);
+            return;
+        }
+
+        result = schuelerInnen.filter(s => s.nachname.includes(searchStr) || s.vorname.includes(searchStr));
+    }
+
+    cbk(null, result.map(s => {
+        return {
+            nachname: s.nachname,
+            vorname: s.vorname,
+            raum: klassenRaeume.find(k => k.name === s.klasse)?.raum
+        }
+    }));
+}
+
 app.get('/api/schuelerinnen', (req, res) => {
     const searchStr = req.query.searchStr;
+    console.log(searchStr);
+    console.log(typeof searchStr);
     let schuelerInnen, klassenRaeume;
 
     try {
@@ -132,8 +161,43 @@ app.get('/api/schuelerinnen', (req, res) => {
         res.status(500).send();
         return;
     }
-})
+});
+
+app.get('/api/schuelerinnenP', (req, res) => {
+    const searchStr = req.query.searchStr;
+    let schuelerInnen, klassenRaeume;
+
+    isDone = (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send();
+            return;
+        }
+
+        if (schuelerInnen && klassenRaeume) {
+            filterAndMergeAsync(schuelerInnen, klassenRaeume, searchStr, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send();
+                    return;
+                }
+
+                res.json(data);
+            });
+        }
+    }
+
+    readSchuelerInnenAsync((err, data) => {
+        schuelerInnen = data;
+        isDone(err, data);
+    });
+
+    readKlassenAsync((err, data) => {
+        klassenRaeume = data;
+        isDone(err, data);
+    });
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
-})
+});
