@@ -30,7 +30,7 @@ function readSchuelerInnenSync() {
 
 /**
  * 
- * @param {(error: string, data: Array<SchuelerIn>) => unknown} cbk 
+ * @param {(error: Error | null, data: Array<SchuelerIn>) => unknown} cbk 
  * @returns {void}
  */
 function readSchuelerInnenAsync(cbk) {
@@ -59,7 +59,7 @@ function readKlassenSync() {
 }
 
 /**
- * @param {(error: string, data: Array<Klasse>) => unknown} cbk
+ * @param {(error: Error | null, data: Array<Klasse>) => unknown} cbk
  * @returns {void}
  */
 function readKlassenAsync(cbk) {
@@ -70,7 +70,8 @@ function readKlassenAsync(cbk) {
         }
 
         try {
-            cbk(null, JSON.parse(data));
+            let klassen = JSON.parse(data);
+            cbk(null, klassen.map((e) => { return { name: e.name, raum: e.raum }}));
         } catch (err) {
             cbk(err, null);
         }
@@ -106,14 +107,14 @@ function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
  * @param {Array<SchuelerIn>} schuelerInnen
  * @param {Array<Klasse>} klassenRaeume
  * @param {string} searchStr
- * @param {(error: string, data: Array<{ nachname: string; vorname: string; raum: string | undefined;  }>) => unknown} cbk
+ * @param {(error: Error | null, data: Array<{ nachname: string; vorname: string; raum: string | undefined;  }>) => unknown} cbk
  * @returns {void}
  */
 function filterAndMergeAsync(schuelerInnen, klassenRaeume, searchStr, cbk) {
     let result = schuelerInnen;
     if (searchStr) {
         if (searchStr.length < 3) {
-            cbk('searchStr muss mindestens 3 Zeichen umfassen', null);
+            cbk(new Error('searchStr muss mindestens 3 Zeichen umfassen'), null);
             return;
         }
 
@@ -166,9 +167,13 @@ app.get('/api/schuelerinnen', (req, res) => {
 app.get('/api/schuelerinnenP', (req, res) => {
     const searchStr = req.query.searchStr;
     let schuelerInnen, klassenRaeume;
+    let hasResponded = false;
 
     isDone = (err, data) => {
+        if (hasResponded) return;
+
         if (err) {
+            hasResponded = true;
             console.error(err);
             res.status(500).send();
             return;
@@ -183,6 +188,7 @@ app.get('/api/schuelerinnenP', (req, res) => {
                 }
 
                 res.json(data);
+                hasResponded = true;
             });
         }
     }
