@@ -56,47 +56,75 @@ function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
     }));
 }
 
-app.get('/api/schuelerinnen', (req, res) => {
+app.get('/api/schuelerinnen', async (req, res) => {
     const searchStr = req.query.searchStr;
 
     let schuelerInnen, klassenRaeume;
 
-    // Note: this was implemented _after_ schuelerinnenP, it is in fact harder to keep sync than promisified
-
-    readSchuelerInnenSync()
-        .then((result) => {
-            schuelerInnen = result;
-            return readKlassenSync();
-        })
-        .then((result) => {
-            klassenRaeume = result;
-            return { schuelerInnen, klassenRaeume };
-        })
-        .then((data) => filterAndMergeSync(data.schuelerInnen, data.klassenRaeume, searchStr))
-        .then((result) => res.json(result))
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send();
-        });
+    try {
+        schuelerInnen = await readSchuelerInnenSync();
+        klassenRaeume = await readKlassenSync();
+        res.json(await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr));
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
 
 });
 
-app.get('/api/schuelerinnenP', (req, res) => {
+app.get('/api/schuelerinnenP', async (req, res) => {
     const searchStr = req.query.searchStr;
 
-    Promise.all([readSchuelerInnenSync(), readKlassenSync()])
-        .then((results) => { return { schuelerInnen: results[0], klassenRaeume: results[1] }; })
-        .then((data) => filterAndMergeSync(data.schuelerInnen, data.klassenRaeume, searchStr))
-        .then((result) => res.json(result))
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send();
-        });
-});
+    // Execute 2 async functions parallel, no Promise.all
+    let schuelerInnen, klassenRaeume;
 
-app.get('/api/schuelerinnenPAll', (req, res) => {
-    // Hehe
-    res.redirect("/api/schuelerinnenP");
+    /**
+     * @param {Array<Promise<any>>} promises
+     * @returns {Promise<Array<any>>}
+     */
+    const execParallel = async (promises) => {
+        const finishFunction = () => {
+            finished++;
+            if (finished !== promises.length)
+                return;
+
+            if (errors.some(e => e !== undefined))
+                return reject(errors.find(e => e !== undefined));
+
+            resolve(results);
+        };
+
+        let finished = 0;
+        let results = [];
+        let errors = [];
+
+        for (let i = 0; i < promises.length; i++) {
+            results[i] = undefined;
+            errors[i] = undefined;
+        }
+
+        promises.forEach((p, i) => {
+            p.then((result) => {
+                results[i] = result;
+                finishFunction();
+            }).catch((err) => {
+                errors[i] = err;
+                finishFunction();
+            });
+        });
+    }
+
+    // Old version
+    try {
+        let results = await execParallel([readSchuelerInnenSync(), readKlassenSync()]);
+        schuelerInnen = results[0];
+        klassenRaeume = results[1];
+
+        res.json(await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr));
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
 });
 
 app.listen(port, () => {
