@@ -1,0 +1,15 @@
+### GET all
+GET http://localhost:3000/api/schuelerinnen
+
+### GET all containing 'uster'
+GET http://localhost:3000/api/schuelerinnen?searchStr=uster
+
+### GET all with not existing searchStr
+GET http://localhost:3000/api/schuelerinnen?searchStr=unkn
+
+### GET all with too short searchStr
+GET http://localhost:3000/api/schuelerinnen?searchStr=un
+
+
+### GET all - Parallel
+GET http://localhost:3000/api/schuelerinnenP
