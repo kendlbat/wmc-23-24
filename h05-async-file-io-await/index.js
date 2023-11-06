@@ -1,5 +1,5 @@
-const express = require('express');
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 const app = express();
 const port = 3000;
 
@@ -19,44 +19,60 @@ const port = 3000;
  */
 
 /**
- * 
+ *
  * @returns {Promise<Array<SchuelerIn>>}
  */
 function readSchuelerInnenSync() {
-    return fs.promises.readFile('data/schuelerinnen.json')
+    return fs.promises
+        .readFile("data/schuelerinnen.json")
         .then((data) => JSON.parse(data));
 }
 
 /**
- * 
+ *
  * @returns {Promise<Array<Klasse>>}
  */
 function readKlassenSync() {
-    return fs.promises.readFile('data/klassen.json')
+    return fs.promises
+        .readFile("data/klassen.json")
         .then((data) => JSON.parse(data))
-        .then((klassen) => klassen.map(k => { return { name: k.name, raum: k.raum }; }));
+        .then((klassen) =>
+            klassen.map((k) => {
+                return { name: k.name, raum: k.raum };
+            }),
+        );
 }
 
 function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
     return new Promise((resolve, reject) => {
         if (searchStr) {
             if (searchStr.length < 3)
-                return reject(new Error('searchStr muss mindestens 3 Zeichen umfassen'));
+                return reject(
+                    new Error("searchStr muss mindestens 3 Zeichen umfassen"),
+                );
 
-            return resolve(schuelerInnen.filter(s => s.nachname.includes(searchStr) || s.vorname.includes(searchStr)));
+            return resolve(
+                schuelerInnen.filter(
+                    (s) =>
+                        s.nachname.includes(searchStr) ||
+                        s.vorname.includes(searchStr),
+                ),
+            );
         }
 
         resolve(schuelerInnen);
-    }).then((result) => result.map(s => {
-        return {
-            nachname: s.nachname,
-            vorname: s.vorname,
-            raum: klassenRaeume.find(k => k.name === s.klasse).raum
-        }
-    }));
+    }).then((result) =>
+        result.map((s) => {
+            return {
+                nachname: s.nachname,
+                vorname: s.vorname,
+                raum: klassenRaeume.find((k) => k.name === s.klasse).raum,
+            };
+        }),
+    );
 }
 
-app.get('/api/schuelerinnen', async (req, res) => {
+app.get("/api/schuelerinnen", async (req, res) => {
     const searchStr = req.query.searchStr;
 
     let schuelerInnen, klassenRaeume;
@@ -64,15 +80,16 @@ app.get('/api/schuelerinnen', async (req, res) => {
     try {
         schuelerInnen = await readSchuelerInnenSync();
         klassenRaeume = await readKlassenSync();
-        res.json(await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr));
+        res.json(
+            await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr),
+        );
     } catch (e) {
         console.error(e);
         res.status(500).send();
     }
-
 });
 
-app.get('/api/schuelerinnenP', async (req, res) => {
+app.get("/api/schuelerinnenP", async (req, res) => {
     const searchStr = req.query.searchStr;
 
     // Execute 2 async functions parallel, no Promise.all
@@ -85,11 +102,10 @@ app.get('/api/schuelerinnenP', async (req, res) => {
     const execParallel = async (promises) => {
         const finishFunction = () => {
             finished++;
-            if (finished !== promises.length)
-                return;
+            if (finished !== promises.length) return;
 
-            if (errors.some(e => e !== undefined))
-                return reject(errors.find(e => e !== undefined));
+            if (errors.some((e) => e !== undefined))
+                return reject(errors.find((e) => e !== undefined));
 
             resolve(results);
         };
@@ -112,15 +128,20 @@ app.get('/api/schuelerinnenP', async (req, res) => {
                 finishFunction();
             });
         });
-    }
+    };
 
     // Old version
     try {
-        let results = await execParallel([readSchuelerInnenSync(), readKlassenSync()]);
+        let results = await execParallel([
+            readSchuelerInnenSync(),
+            readKlassenSync(),
+        ]);
         schuelerInnen = results[0];
         klassenRaeume = results[1];
 
-        res.json(await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr));
+        res.json(
+            await filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr),
+        );
     } catch (e) {
         console.error(e);
         res.status(500).send();
@@ -128,5 +149,5 @@ app.get('/api/schuelerinnenP', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 });

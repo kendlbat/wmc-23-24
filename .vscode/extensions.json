@@ -1,3 +1,6 @@
 {
-  "recommendations": ["llacoste2000.unofficial-gitlab-dark-theme"]
+    "recommendations": [
+        "llacoste2000.unofficial-gitlab-dark-theme",
+        "esbenp.prettier-vscode"
+    ]
 }

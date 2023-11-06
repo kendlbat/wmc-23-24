@@ -21,8 +21,8 @@ function main() {
 
     let duration = endTime - startTime;
 
-    console.log('Result: ' + result);
-    console.log('Duration: ' + duration / 1000 + 's');
+    console.log("Result: " + result);
+    console.log("Duration: " + duration / 1000 + "s");
 }
 
 /* 

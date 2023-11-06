@@ -1,5 +1,5 @@
-const express = require('express');
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 const app = express();
 const port = 3000;
 
@@ -19,27 +19,27 @@ const port = 3000;
  */
 
 /**
- * 
+ *
  * @returns {Array<SchuelerIn>}
  */
 function readSchuelerInnenSync() {
-    const fileContent = fs.readFileSync('data/schuelerinnen.json');
+    const fileContent = fs.readFileSync("data/schuelerinnen.json");
     const schuelerInnen = JSON.parse(fileContent);
     return schuelerInnen;
 }
 
 /**
- * 
- * @param {(error: Error | null, data: Array<SchuelerIn>) => unknown} cbk 
+ *
+ * @param {(error: Error | null, data: Array<SchuelerIn>) => unknown} cbk
  * @returns {void}
  */
 function readSchuelerInnenAsync(cbk) {
-    fs.readFile('data/schuelerinnen.json', (err, data) => {
+    fs.readFile("data/schuelerinnen.json", (err, data) => {
         if (err) {
             cbk(err, null);
             return;
         }
-        
+
         try {
             cbk(null, JSON.parse(data));
         } catch (err) {
@@ -49,13 +49,15 @@ function readSchuelerInnenAsync(cbk) {
 }
 
 /**
- * 
+ *
  * @returns {Array<Klasse>}
  */
 function readKlassenSync() {
-    const fileContent = fs.readFileSync('data/klassen.json');
+    const fileContent = fs.readFileSync("data/klassen.json");
     const klassen = JSON.parse(fileContent);
-    return klassen.map(k => { return { name: k.name, raum: k.raum } });
+    return klassen.map((k) => {
+        return { name: k.name, raum: k.raum };
+    });
 }
 
 /**
@@ -63,7 +65,7 @@ function readKlassenSync() {
  * @returns {void}
  */
 function readKlassenAsync(cbk) {
-    fs.readFile('data/klassen.json', (err, data) => {
+    fs.readFile("data/klassen.json", (err, data) => {
         if (err) {
             cbk(err, null);
             return;
@@ -71,7 +73,12 @@ function readKlassenAsync(cbk) {
 
         try {
             let klassen = JSON.parse(data);
-            cbk(null, klassen.map((e) => { return { name: e.name, raum: e.raum }}));
+            cbk(
+                null,
+                klassen.map((e) => {
+                    return { name: e.name, raum: e.raum };
+                }),
+            );
         } catch (err) {
             cbk(err, null);
         }
@@ -79,27 +86,30 @@ function readKlassenAsync(cbk) {
 }
 
 /**
- * 
- * @param {Array<SchuelerIn>} schuelerInnen 
- * @param {Array<Klasse>} klassenRaeume 
- * @param {string} searchStr 
+ *
+ * @param {Array<SchuelerIn>} schuelerInnen
+ * @param {Array<Klasse>} klassenRaeume
+ * @param {string} searchStr
  * @returns {Array<{ nachname: string; vorname: string; raum: string | undefined;  }>}
  */
 function filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr) {
     let result = schuelerInnen;
     if (searchStr) {
         if (searchStr.length < 3)
-            throw new Error('searchStr muss mindestens 3 Zeichen umfassen');
+            throw new Error("searchStr muss mindestens 3 Zeichen umfassen");
 
-        result = schuelerInnen.filter(s => s.nachname.includes(searchStr) || s.vorname.includes(searchStr));
+        result = schuelerInnen.filter(
+            (s) =>
+                s.nachname.includes(searchStr) || s.vorname.includes(searchStr),
+        );
     }
 
-    return result.map(s => {
+    return result.map((s) => {
         return {
             nachname: s.nachname,
             vorname: s.vorname,
-            raum: klassenRaeume.find(k => k.name === s.klasse)?.raum
-        }
+            raum: klassenRaeume.find((k) => k.name === s.klasse)?.raum,
+        };
     });
 }
 
@@ -114,23 +124,32 @@ function filterAndMergeAsync(schuelerInnen, klassenRaeume, searchStr, cbk) {
     let result = schuelerInnen;
     if (searchStr) {
         if (searchStr.length < 3) {
-            cbk(new Error('searchStr muss mindestens 3 Zeichen umfassen'), null);
+            cbk(
+                new Error("searchStr muss mindestens 3 Zeichen umfassen"),
+                null,
+            );
             return;
         }
 
-        result = schuelerInnen.filter(s => s.nachname.includes(searchStr) || s.vorname.includes(searchStr));
+        result = schuelerInnen.filter(
+            (s) =>
+                s.nachname.includes(searchStr) || s.vorname.includes(searchStr),
+        );
     }
 
-    cbk(null, result.map(s => {
-        return {
-            nachname: s.nachname,
-            vorname: s.vorname,
-            raum: klassenRaeume.find(k => k.name === s.klasse)?.raum
-        }
-    }));
+    cbk(
+        null,
+        result.map((s) => {
+            return {
+                nachname: s.nachname,
+                vorname: s.vorname,
+                raum: klassenRaeume.find((k) => k.name === s.klasse)?.raum,
+            };
+        }),
+    );
 }
 
-app.get('/api/schuelerinnen', (req, res) => {
+app.get("/api/schuelerinnen", (req, res) => {
     const searchStr = req.query.searchStr;
     console.log(searchStr);
     console.log(typeof searchStr);
@@ -146,25 +165,27 @@ app.get('/api/schuelerinnen', (req, res) => {
 
     try {
         klassenRaeume = readKlassenSync();
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         res.status(500).send();
         return;
     }
 
     try {
-        let result = filterAndMergeSync(schuelerInnen, klassenRaeume, searchStr);
+        let result = filterAndMergeSync(
+            schuelerInnen,
+            klassenRaeume,
+            searchStr,
+        );
         res.json(result);
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         res.status(500).send();
         return;
     }
 });
 
-app.get('/api/schuelerinnenP', (req, res) => {
+app.get("/api/schuelerinnenP", (req, res) => {
     const searchStr = req.query.searchStr;
     let schuelerInnen, klassenRaeume;
     let hasResponded = false;
@@ -180,18 +201,23 @@ app.get('/api/schuelerinnenP', (req, res) => {
         }
 
         if (schuelerInnen && klassenRaeume) {
-            filterAndMergeAsync(schuelerInnen, klassenRaeume, searchStr, (err, data) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send();
-                    return;
-                }
+            filterAndMergeAsync(
+                schuelerInnen,
+                klassenRaeume,
+                searchStr,
+                (err, data) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send();
+                        return;
+                    }
 
-                res.json(data);
-                hasResponded = true;
-            });
+                    res.json(data);
+                    hasResponded = true;
+                },
+            );
         }
-    }
+    };
 
     readSchuelerInnenAsync((err, data) => {
         schuelerInnen = data;
@@ -205,5 +231,5 @@ app.get('/api/schuelerinnenP', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`);
 });

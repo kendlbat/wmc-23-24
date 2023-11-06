@@ -1,10 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const fs = require("fs");
 
 let nextRequestId = 1;
 
-function add(a, b) { return a + b; }
+function add(a, b) {
+    return a + b;
+}
 
 app.use(express.json());
 
@@ -14,12 +16,16 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/hello', (req, res) => {
-    res.send('Hello World! now is ' + Date.now());
+app.get("/hello", (req, res) => {
+    res.send("Hello World! now is " + Date.now());
 });
 
 app.post("/write", (req, res) => {
-    console.log(`start processing received request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}`);
+    console.log(
+        `start processing received request nr. ${req.id} at ${getFormattedTime(
+            new Date(Date.now()),
+        )}`,
+    );
     const numFiles = req.body.numFiles;
     const value = req.body.value;
     for (let fileNo = 1; fileNo <= numFiles; fileNo++) {
@@ -27,11 +33,19 @@ app.post("/write", (req, res) => {
         fs.writeFileSync(fileName, value);
     }
     res.status(200).send("done");
-    console.log(`answered request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}\n`);
+    console.log(
+        `answered request nr. ${req.id} at ${getFormattedTime(
+            new Date(Date.now()),
+        )}\n`,
+    );
 });
 
 app.post("/writeSeq", (req, res) => {
-    console.log(`[WRITE-SEQ] start processing received request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}`);
+    console.log(
+        `[WRITE-SEQ] start processing received request nr. ${
+            req.id
+        } at ${getFormattedTime(new Date(Date.now()))}`,
+    );
     const numFiles = req.body.numFiles;
     const value = req.body.value;
     function writeFile(fileNo, maxFileNo) {
@@ -41,7 +55,11 @@ app.post("/writeSeq", (req, res) => {
                 writeFile(fileNo + 1, maxFileNo);
             } else {
                 res.status(200).send("done");
-                console.log(`answered request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}\n`);
+                console.log(
+                    `answered request nr. ${req.id} at ${getFormattedTime(
+                        new Date(Date.now()),
+                    )}\n`,
+                );
             }
         });
     }
@@ -49,24 +67,41 @@ app.post("/writeSeq", (req, res) => {
 });
 
 app.post("/writePar", (req, res) => {
-    console.log(`[WRITE-PAR] start processing received request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}`);
+    console.log(
+        `[WRITE-PAR] start processing received request nr. ${
+            req.id
+        } at ${getFormattedTime(new Date(Date.now()))}`,
+    );
     let executions = [];
     const { numFiles, value } = req.body;
     for (let i = 0; i < numFiles; i++) {
-        executions.push(new Promise((res) => fs.writeFile(`data/file${i}.txt`, value, res)));
+        executions.push(
+            new Promise((res) => fs.writeFile(`data/file${i}.txt`, value, res)),
+        );
     }
     Promise.all(executions).then(() => {
         res.status(200).send("done");
-        console.log(`answered request nr. ${req.id} at ${getFormattedTime(new Date(Date.now()))}\n`);
+        console.log(
+            `answered request nr. ${req.id} at ${getFormattedTime(
+                new Date(Date.now()),
+            )}\n`,
+        );
     });
 });
 
 function getFormattedTime(dateTS) {
     let dateObj = new Date(dateTS);
-    return `${dateObj.getHours()}:${('00' + dateObj.getMinutes()).slice(-2)}:${('00' + dateObj.getSeconds()).slice(-2)}.${('000' + dateObj.getMilliseconds()).slice(-3)}`;
+    return `${dateObj.getHours()}:${("00" + dateObj.getMinutes()).slice(-2)}:${(
+        "00" + dateObj.getSeconds()
+    ).slice(-2)}.${("000" + dateObj.getMilliseconds()).slice(-3)}`;
 }
 
-async function getAverageExecutionTimeForEndpoint(endpointURL, executionNumber, numFiles = 5000, value = "Kendlbacher") {
+async function getAverageExecutionTimeForEndpoint(
+    endpointURL,
+    executionNumber,
+    numFiles = 5000,
+    value = "Kendlbacher",
+) {
     let executions = [];
     for (let i = 0; i < executionNumber; i++) {
         try {
@@ -83,7 +118,7 @@ async function getAverageExecutionTimeForEndpoint(endpointURL, executionNumber, 
             }),
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
         });
         console.log(`Took ${Date.now() - startTime}ms\n`);
         executions.push(Date.now() - startTime);
@@ -96,16 +131,27 @@ try {
     app.listen(3000, async () => {
         console.log("Server running on http://localhost:3000/");
 
-        let normal = await getAverageExecutionTimeForEndpoint("http://localhost:3000/write", 3);
-        let sequential = await getAverageExecutionTimeForEndpoint("http://localhost:3000/writeSeq", 3);
-        let parallel = await getAverageExecutionTimeForEndpoint("http://localhost:3000/writePar", 3);
-
+        let normal = await getAverageExecutionTimeForEndpoint(
+            "http://localhost:3000/write",
+            3,
+        );
+        let sequential = await getAverageExecutionTimeForEndpoint(
+            "http://localhost:3000/writeSeq",
+            3,
+        );
+        let parallel = await getAverageExecutionTimeForEndpoint(
+            "http://localhost:3000/writePar",
+            3,
+        );
 
         console.log(`[NORMAL] Average execution time: ${normal.toFixed(2)}ms`);
-        console.log(`[SEQUENTIAL] Average execution time: ${sequential.toFixed(2)}ms`);
-        console.log(`[PARALLEL] Average execution time: ${parallel.toFixed(2)}ms`);
+        console.log(
+            `[SEQUENTIAL] Average execution time: ${sequential.toFixed(2)}ms`,
+        );
+        console.log(
+            `[PARALLEL] Average execution time: ${parallel.toFixed(2)}ms`,
+        );
     });
 } finally {
-    if (fs.existsSync("data"))
-        fs.rmSync("data", { recursive: true });
+    if (fs.existsSync("data")) fs.rmSync("data", { recursive: true });
 }

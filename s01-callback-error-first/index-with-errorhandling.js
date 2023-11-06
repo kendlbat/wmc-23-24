@@ -1,15 +1,16 @@
 doLongRunningComplexCalculation([100, 500, 800], handleResult);
 
-
 function doLongRunningComplexCalculation(numersArray, callback) {
     setTimeout(() => {
         try {
-            let result = numersArray.reduce((prev, current) => {return prev+current}, 0);
-    
+            let result = numersArray.reduce((prev, current) => {
+                return prev + current;
+            }, 0);
+
             if (result > 1000) {
                 throw new Error("Calculation Overflow");
             }
-    
+
             callback(null, result);
         } catch (error) {
             callback(error, null);
