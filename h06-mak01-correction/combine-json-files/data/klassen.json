@@ -1,0 +1,22 @@
+[
+    {
+        "name": "1AHIF",
+        "jahrgangsVorstand": "MIK",
+        "raum": "138"
+    },
+    {
+        "name": "1BHIF",
+        "jahrgangsVorstand": "GRI",
+        "raum": "145"
+    },
+    {
+        "name": "2AHIF",
+        "jahrgangsVorstand": "MES",
+        "raum": "134"
+    },
+    {
+        "name": "2BHIF",
+        "jahrgangsVorstand": "WIV",
+        "raum": "128"
+    }
+]

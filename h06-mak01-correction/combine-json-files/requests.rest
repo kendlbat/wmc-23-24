@@ -1,0 +1,26 @@
+### GET data from valid file
+GET http://localhost:3000/api/schueler/valid
+
+### GET data from invalid file
+GET http://localhost:3000/api/schueler/invalidJSON
+
+### GET data from file with missing key
+GET http://localhost:3000/api/schueler/missingKey
+
+### GET data from nonexisting file
+GET http://localhost:3000/api/schueler/nonExisting
+
+
+### GET data from valid file
+GET http://localhost:3000/api/schuelerP/valid
+
+### GET data from invalid file
+GET http://localhost:3000/api/schuelerP/invalidJSON
+
+### GET data from file with missing key
+GET http://localhost:3000/api/schuelerP/missingKey
+
+### GET data from nonexisting file
+GET http://localhost:3000/api/schuelerP/nonExisting
+
+
