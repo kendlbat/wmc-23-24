@@ -1,0 +1,43 @@
+[
+    {
+        "guideName": "Alice Schmidt",
+        "guideClass": "1BHIF",
+        "numPersons": 4,
+        "registration": true
+    },
+    {
+        "guideName": "Stacy Schmidt",
+        "guideClass": "3BHIF",
+        "numPersons": 4,
+        "registration": true
+    },
+    {
+        "guideName": "Jane Doe",
+        "guideClass": "3BHIF",
+        "numPersons": 40,
+        "registration": true
+    },
+    {
+        "guideName": "Emily Davis",
+        "guideClass": "3BHIF",
+        "numPersons": 3,
+        "registration": false
+    },
+    {
+        "guideName": "Emily Davis",
+        "guideClass": "4AHIF",
+        "numPersons": "9",
+        "registration": false
+    },
+    {
+        "guideName": "Edith Kirkland",
+        "guideClass": "4AHIF",
+        "numPersons": 2,
+        "registration": false
+    },
+    {
+        "guideName": "James Kirkland",
+        "guideClass": "4AHIF",
+        "numPersons": 2
+    }
+]

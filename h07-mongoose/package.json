@@ -1,0 +1,15 @@
+{
+    "name": "tdot-backend",
+    "version": "1.0.0",
+    "description": "Backend for TdoT using Express and Mongoose",
+    "main": "server.js",
+    "scripts": {
+      "fill-demo-data": "node fill-demo-data.js"
+    },
+    "author": "KON+KAA",
+    "license": "ISC",
+    "dependencies": {
+      "mongoose": "^7.6.3"
+    }
+  }
+  
