@@ -60,7 +60,7 @@ async function main() {
                 authSource: "admin",
                 user: "root",
                 pass: "root",
-            }
+            },
         );
         console.log("connected to database");
 
@@ -70,7 +70,7 @@ async function main() {
             });
 
             console.log(
-                `Successfully inserted ${resp.length}/${teachersData.length} records`
+                `Successfully inserted ${resp.length}/${teachersData.length} records`,
             );
         } catch (e) {
             console.error(e);

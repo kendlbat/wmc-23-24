@@ -72,7 +72,7 @@ function readSchuelerAsync(filename, cbk) {
         ["id", "nachname", "vorname", "klasse"],
         (err, data) => {
             cbk(err, data);
-        }
+        },
     );
 }
 
@@ -86,7 +86,7 @@ function readKlassenAsync(cbk) {
         try {
             cbk(
                 undefined,
-                data.filter((k) => k.name.endsWith("HIF"))
+                data.filter((k) => k.name.endsWith("HIF")),
             );
         } catch (err) {
             cbk(err);

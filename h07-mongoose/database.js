@@ -1,28 +1,14 @@
-const { mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
-/**
- *
- * @param {string} connectionString
- * @param {boolean | undefined} recreateDatabase
- */
+const dbConnectTimeout = 5000;
+
 async function setupDBConnection(connectionString, recreateDatabase) {
     try {
-        const dbConnectTimeout = 5000;
-
         // BTW... bad practice to log connection strings including passwords ...
         console.log(`DB - Setting up connection using ${connectionString}`);
 
         if (recreateDatabase) {
-            let connection = null;
-
-            connection = await mongoose
-                .createConnection(connectionString, {
-                    serverSelectionTimeoutMS: dbConnectTimeout,
-                })
-                .asPromise();
-            await connection.dropDatabase();
-
-            console.log("DB - current database dropped !!");
+            await dropCurrentDatabase(connectionString);
         }
 
         await mongoose.connect(connectionString, {
@@ -36,4 +22,18 @@ async function setupDBConnection(connectionString, recreateDatabase) {
     }
 }
 
-module.exports = { setupDBConnection };
+async function dropCurrentDatabase(connectionString) {
+    let connection = null;
+    console.log(`DB - Start dropping current database`);
+
+    connection = await mongoose
+        .createConnection(connectionString, {
+            serverSelectionTimeoutMS: dbConnectTimeout,
+        })
+        .asPromise();
+    await connection.dropDatabase();
+
+    console.log("DB - Current database dropped !!");
+}
+
+module.exports = { setupDBConnection, dropCurrentDatabase };

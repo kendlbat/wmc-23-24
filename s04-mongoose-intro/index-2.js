@@ -35,7 +35,7 @@ async function main() {
                 authSource: "admin",
                 user: "root",
                 pass: "root",
-            }
+            },
         );
         console.log("connected to database");
 

@@ -4,12 +4,20 @@
     "description": "Backend for TdoT using Express and Mongoose",
     "main": "server.js",
     "scripts": {
-      "fill-demo-data": "node fill-demo-data.js"
+        "fill-demo-data": "node fill-demo-data.js",
+        "test": "mocha tests --recursive",
+        "start": "node server.js"
     },
     "author": "KON+KAA",
     "license": "ISC",
     "dependencies": {
-      "mongoose": "^7.6.3"
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-mongo-sanitize": "^2.2.0",
+        "mongoose": "^7.6.3"
+    },
+    "devDependencies": {
+        "mocha": "^10.2.0",
+        "supertest": "^6.3.3"
     }
-  }
-  
+}

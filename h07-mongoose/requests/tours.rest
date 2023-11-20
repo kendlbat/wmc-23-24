@@ -1,0 +1,33 @@
+@baseurl = http://127.0.0.1:8080/api
+
+### GET all tours
+GET {{baseurl}}/tours
+
+### POST valid tour
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "Emily Davis",
+    "guideClass": "3BHIF",
+    "numPersons": 3,
+    "registration": false
+}
+
+### POST invalid tour with invalid class and missing numPersons
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "Emily Davis",
+    "guideClass": "3xHIF",
+    "registration": false
+}
+
+### GET tour by id - id needs to be adapted of course
+GET {{baseurl}}/tours/65326f5fec6cd87154f9db87
+
+
+### DELETE tour by id - id needs to be adapted of course
+DELETE {{baseurl}}/tours/65328ace54c94b20bcfab7a8
+

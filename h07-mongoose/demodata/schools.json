@@ -35,7 +35,7 @@
             "zipCode": 9500
         },
         "category": "AHS"
-    },    
+    },
     {
         "code": 202417,
         "title": "HTL Villach",
@@ -64,5 +64,5 @@
             "city": "Villach"
         },
         "category": "MS"
-    }    
+    }
 ]
