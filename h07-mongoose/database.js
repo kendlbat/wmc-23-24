@@ -20,7 +20,7 @@ async function setupDBConnection(connectionString, recreateDatabase) {
 
         logger.info(`DB - Connection to ${connectionString} established.`);
     } catch (err) {
-        logger.error("DB - Unable to setup connection... ", err);
+        logger.error(`DB - Unable to setup connection... ${err}`);
         process.exit(1);
     }
 }

@@ -3,12 +3,12 @@ const { School } = require("./schools-schema");
 const { logger } = require("../logging");
 
 const create = async (req, res) => {
-    logger.debug(`Schools - adding a new school: `, req.body);
+    logger.debug(`Schools - adding a new school: ${req.body}`);
 
     try {
         let newSchool = await School.create(req.body);
         res.status(201);
-        res.location(`/api/school/${newSchool.id}`);
+        res.location(`/api/schools/${newSchool.id}`);
         res.json(newSchool);
     } catch (err) {
         if (err instanceof mongoose.Error.ValidationError) {
@@ -18,7 +18,7 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    logger.debug(`Schools - fetching schools with filter`, req.query);
+    logger.debug(`Schools - fetching schools with filter ${req.query}`);
 
     // never do this in the real world > do not blindly accept client queries!!!
     // Comment: added express-mongo-sanitize to prevent arbitrary queries
@@ -30,13 +30,13 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
     try {
         const schoolId = req.params.id;
-        logger.debug("Schools - get single tour: ", schoolId);
+        logger.debug(`Schools - get single school: ${schoolId}`);
 
         let school = await School.findById(schoolId);
         if (school) {
             res.status(200).send(school);
         } else {
-            res.status(404).send(`Tour with id ${schoolId} not found`);
+            res.status(404).send(`School with id ${schoolId} not found`);
         }
     } catch (err) {
         logger.error(err);
@@ -47,7 +47,7 @@ const getById = async (req, res) => {
 const deleteById = async (req, res) => {
     try {
         const schoolId = req.params.id;
-        logger.debug("Tours - get single tour: ", schoolId);
+        logger.debug(`Schools - get single school: ${schoolId}`);
 
         let result = await School.deleteOne({ _id: schoolId });
         if (result.deletedCount == 1) {
