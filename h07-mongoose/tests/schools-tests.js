@@ -38,7 +38,8 @@ describe("Schools", () => {
                 .post("/api/schools")
                 .send(newSchool)
                 .expect(201)
-                .expect("Content-Type", /json/);
+                .expect("Content-Type", /json/)
+                .expect("Location", /\/api\/school\/[0-9]*/);
 
             assert.equal(typeof response.body, "object");
             assert.notEqual(response.body_id, "undefined");

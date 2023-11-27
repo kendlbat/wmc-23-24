@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const { School } = require("./schools-schema");
+const { logger } = require("../logging");
 
 const create = async (req, res) => {
-    console.log(`Schools - adding a new school: `, req.body);
+    logger.debug(`Schools - adding a new school: `, req.body);
 
     try {
         let newSchool = await School.create(req.body);
@@ -17,7 +18,7 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    console.log(`Schools - fetching schools with filter`, req.query);
+    logger.debug(`Schools - fetching schools with filter`, req.query);
 
     // never do this in the real world > do not blindly accept client queries!!!
     // Comment: added express-mongo-sanitize to prevent arbitrary queries
@@ -29,7 +30,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
     try {
         const schoolId = req.params.id;
-        console.log("Schools - get single tour: ", schoolId);
+        logger.debug("Schools - get single tour: ", schoolId);
 
         let school = await School.findById(schoolId);
         if (school) {
@@ -38,7 +39,7 @@ const getById = async (req, res) => {
             res.status(404).send(`Tour with id ${schoolId} not found`);
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         res.status(500).send("unexpected error occured");
     }
 };
@@ -46,7 +47,7 @@ const getById = async (req, res) => {
 const deleteById = async (req, res) => {
     try {
         const schoolId = req.params.id;
-        console.log("Tours - get single tour: ", schoolId);
+        logger.debug("Tours - get single tour: ", schoolId);
 
         let result = await School.deleteOne({ _id: schoolId });
         if (result.deletedCount == 1) {
@@ -55,7 +56,7 @@ const deleteById = async (req, res) => {
             res.status(404).send(`School with id ${schoolId} not found`);
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         res.status(500).send("unexpected error occured");
     }
 };

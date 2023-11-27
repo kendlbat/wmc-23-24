@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const { Tour } = require("./tour-model");
+const { logger } = require("../logging");
 
 const create = async (req, res) => {
-    console.log(`Tours - adding a new tour: `, req.body);
+    logger.debug(`Tours - adding a new tour: `, req.body);
 
     try {
         let newTour = await Tour.create(req.body);
@@ -17,7 +18,7 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    console.log(`Tours - fetching tours with filter`, req.query);
+    logger.debug(`Tours - fetching tours with filter`, req.query);
 
     // never do this in the real world > do not blindly accept client queries!!!
     let resultSet = await Tour.find(req.query);
@@ -28,7 +29,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
     try {
         const tourId = req.params.id;
-        console.log("Tours - get single tour: ", tourId);
+        logger.debug("Tours - get single tour: ", tourId);
 
         let tour = await Tour.findById(tourId);
         if (tour) {
@@ -37,7 +38,7 @@ const getById = async (req, res) => {
             res.status(404).send(`Tour with id ${tourId} not found`);
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         res.status(500).send("unexpected error occured");
     }
 };
@@ -45,7 +46,7 @@ const getById = async (req, res) => {
 const deleteById = async (req, res) => {
     try {
         const tourId = req.params.id;
-        console.log("Tours - get single tour: ", tourId);
+        logger.debug("Tours - get single tour: ", tourId);
 
         let result = await Tour.deleteOne({ _id: tourId });
         if (result.deletedCount == 1) {
@@ -54,7 +55,7 @@ const deleteById = async (req, res) => {
             res.status(404).send(`Tour with id ${tourId} not found`);
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         res.status(500).send("unexpected error occured");
     }
 };

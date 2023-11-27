@@ -53,7 +53,8 @@ describe("Tours", () => {
                 .post("/api/tours")
                 .send(newTour)
                 .expect(201)
-                .expect("Content-Type", /json/);
+                .expect("Content-Type", /json/)
+                .expect("Location", /\/api\/tours\/[0-9]*/);
 
             assert.equal(typeof response.body, "object");
             assert.notEqual(response.body_id, "undefined");

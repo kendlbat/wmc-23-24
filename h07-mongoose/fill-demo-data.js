@@ -1,5 +1,6 @@
 const fsp = require("fs").promises;
 const mongoose = require("mongoose");
+const { logger } = require("./logging");
 const dotenv = require("dotenv");
 const { setupDBConnection } = require("./database");
 
@@ -24,11 +25,11 @@ async function fillTourData() {
             if (curr.status === "rejected") acc.errorCnt++;
             return acc;
         },
-        { successCnt: 0, errorCnt: 0 },
+        { successCnt: 0, errorCnt: 0 }
     );
 
-    console.log(
-        `Tour data - ${successCnt}/${results.length} tours successfully imported, ${errorCnt} tours contain errors`,
+    logger.info(
+        `Tour data - ${successCnt}/${results.length} tours successfully imported, ${errorCnt} tours contain errors`
     );
 }
 
@@ -37,7 +38,7 @@ async function fillSchoolData() {
     let allSchools = JSON.parse(content);
 
     let results = await Promise.allSettled(
-        allSchools.map((s) => School.create(s)),
+        allSchools.map((s) => School.create(s))
     );
 
     let { successCnt, errorCnt } = results.reduce(
@@ -46,11 +47,11 @@ async function fillSchoolData() {
             if (curr.status === "rejected") acc.errorCnt++;
             return acc;
         },
-        { successCnt: 0, errorCnt: 0 },
+        { successCnt: 0, errorCnt: 0 }
     );
 
-    console.log(
-        `Schools data - ${successCnt}/${results.length} schools successfully imported, ${errorCnt} schools contain errors`,
+    logger.info(
+        `Schools data - ${successCnt}/${results.length} schools successfully imported, ${errorCnt} schools contain errors`
     );
 }
 
@@ -59,7 +60,7 @@ async function fillStationsData() {
     let allStations = JSON.parse(content);
 
     let results = await Promise.allSettled(
-        allStations.map((s) => Station.create(s)),
+        allStations.map((s) => Station.create(s))
     );
 
     let { successCnt, errorCnt } = results.reduce(
@@ -68,18 +69,18 @@ async function fillStationsData() {
             if (curr.status === "rejected") acc.errorCnt++;
             return acc;
         },
-        { successCnt: 0, errorCnt: 0 },
+        { successCnt: 0, errorCnt: 0 }
     );
 
-    console.log(
-        `Stations data - ${successCnt}/${results.length} stations successfully imported, ${errorCnt} stations contain errors`,
+    logger.info(
+        `Stations data - ${successCnt}/${results.length} stations successfully imported, ${errorCnt} stations contain errors`
     );
 }
 
 async function fillDatabase() {
     await setupDBConnection(MONGODB_CONNECTION_STRING, true);
 
-    console.log("start filling database with demo-data");
+    logger.info("start filling database with demo-data");
 
     await fillTourData();
     await fillSchoolData();

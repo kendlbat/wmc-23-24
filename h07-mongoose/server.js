@@ -4,6 +4,7 @@ const express = require("express");
 const http = require("http");
 const dotenv = require("dotenv");
 const mongoSanitize = require("express-mongo-sanitize");
+const { logger } = require("./logging");
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const toursHandlers = require("./tours/tours-handlers");
 const schoolsHandlers = require("./schools/schools-handlers");
 const { setupDBConnection, dropCurrentDatabase } = require("./database");
 
-console.log("Backend - Starting up...");
+logger.info("Backend - Starting up...");
 
 // Take configuration from environment variables
 // or use hardcoded default value
@@ -57,7 +58,7 @@ httpServer.dropCurrentDatabase();
 
 // start listening to HTTP requests
 httpServer.listen(PORT, HOSTNAME, () => {
-    console.log(`Backend - Running on port ${PORT}...`);
+    logger.info(`Backend - Running on port ${PORT}...`);
 });
 
 module.exports = httpServer;
