@@ -9,9 +9,39 @@ const create = async (req, res) => {
         if (!req.body?.roomNumber)
             return res.status(400).send("roomNumber missing");
 
-        let roomStationCount = await Station.find({
+        let roomStationCount = await Station.count({
             roomNumber: req.body.roomNumber,
         });
+
+        if (roomStationCount >= 3)
+            return res
+                .status(400)
+                .send(
+                    `There are already 3 stations in room ${req.body.roomNumber}`
+                );
+
+        let sameTitleCount = await Station.count({
+            title: req.body.title,
+        });
+
+        if (sameTitleCount >= 5)
+            return res
+                .status(400)
+                .send(
+                    `There are already 5 stations with title ${req.body.title}`
+                );
+
+        let sameTitleSameSubtitle = await Station.count({
+            title: req.body.title,
+            subtitle: req.body.subtitle,
+        });
+
+        if (sameTitleSameSubtitle >= 1)
+            return res
+                .status(400)
+                .send(
+                    `There is already a station with title ${req.body.title} and subtitle ${req.body.subtitle}`
+                );
 
         let newStation = await Station.create(req.body);
         res.status(201);
