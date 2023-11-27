@@ -25,15 +25,22 @@ const app = express();
 app.use(express.json());
 app.use("/api", mongoSanitize());
 
-app.get("/api/tours", toursHandlers.getAll);
-app.get("/api/tours/:id", toursHandlers.getById);
-app.post("/api/tours", toursHandlers.create);
-app.delete("/api/tours/:id", toursHandlers.deleteById);
+const apiRoute = new express.Router();
+app.use("/api", apiRoute);
 
-app.get("/api/schools", schoolsHandlers.getAll);
-app.get("/api/schools/:id", schoolsHandlers.getById);
-app.post("/api/schools", schoolsHandlers.create);
-app.delete("/api/schools/:id", schoolsHandlers.deleteById);
+const toursRoute = new express.Router();
+apiRoute.use("/tours", toursRoute);
+toursRoute.get("/", toursHandlers.getAll);
+toursRoute.get("/:id", toursHandlers.getById);
+toursRoute.post("/", toursHandlers.create);
+toursRoute.delete("/:id", toursHandlers.deleteById);
+
+const schoolsRoute = new express.Router();
+apiRoute.use("/schools", schoolsRoute);
+schoolsRoute.get("/", schoolsHandlers.getAll);
+schoolsRoute.get("/:id", schoolsHandlers.getById);
+schoolsRoute.post("/", schoolsHandlers.create);
+schoolsRoute.delete("/:id", schoolsHandlers.deleteById);
 
 // create HTTP server
 const httpServer = http.createServer(app);
