@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Station } = require("../stations/stations-model");
+const { Tour } = require("../tours/tour-model");
 
 const VotingsSchema = new mongoose.Schema(
     {
@@ -23,4 +24,9 @@ const VotingsSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-VotingsSchema.path("station", async (value) => StationSchem);
+VotingsSchema.path("station", async (value) => await Station.findById(value));
+VotingsSchema.path("tour", async (value) => await Tour.findById(value));
+
+const Votings = mongoose.model("votings", VotingsSchema);
+
+module.exports = { Votings };
