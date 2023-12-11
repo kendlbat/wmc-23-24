@@ -17,10 +17,10 @@ logger.info("Backend - Starting up...");
 
 // Take configuration from environment variables
 // or use hardcoded default value
-const HOSTNAME = process.env.HOSTNAME || "0.0.0.0";
+const HOSTNAME = process.env.HOSTNAME || "::";
 const PORT = process.env.PORT || 8080;
 const MONGODB_CONNECTION_STRING =
-    process.env.MONGODB_CONNECTION_STRING || "mongodb://localhost/tdot-app";
+    process.env.MONGODB_CONNECTION_STRING || "mongodb://[::1]/tdot-app";
 const MONGODB_RECREATE = process.env.MONGODB_RECREATE === "true";
 
 const app = express();

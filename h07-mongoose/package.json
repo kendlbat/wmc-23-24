@@ -5,9 +5,9 @@
     "main": "server.js",
     "scripts": {
         "fill-demo-data": "node fill-demo-data.js",
-        "test": "mocha tests --recursive",
+        "test": "cross-env MONGODB_CONNECTION_STRING=mongodb://[::1]:50000 mocha tests --recursive",
         "start": "node server.js",
-        "test-debug": "cross-env LOG_LEVEL=debug mocha tests --recursive"
+        "test-debug": "cross-env LOG_LEVEL=debug MONGODB_CONNECTION_STRING=mongodb://[::1]:50000/mongo-test mocha tests --recursive"
     },
     "author": "KON+KAA",
     "license": "ISC",
