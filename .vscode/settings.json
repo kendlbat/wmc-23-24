@@ -4,5 +4,6 @@
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "markdown-preview-enhanced.plantumlServer": "https://kroki.io/plantuml/svg/"
+    "markdown-preview-enhanced.plantumlServer": "https://kroki.io/plantuml/svg/",
+    "markdown-preview-enhanced.previewTheme": "github-dark.css"
 }
