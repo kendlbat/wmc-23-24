@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Station } = require("../stations/stations-model");
 
 const TourSchema = new mongoose.Schema({
     guideName: {
@@ -23,7 +24,17 @@ const TourSchema = new mongoose.Schema({
         required: false,
         default: false,
     },
+    favoriteStation: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "stations",
+        required: false,
+    },
 });
+
+TourSchema.path("favoriteStation").validate(
+    async (value) => await Station.findById(value),
+    "Station does not exist"
+);
 
 const Tour = mongoose.model("tours", TourSchema);
 
