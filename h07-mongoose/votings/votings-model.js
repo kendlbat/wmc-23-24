@@ -24,8 +24,12 @@ const VotingsSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-VotingsSchema.path("station", async (value) => await Station.findById(value));
-VotingsSchema.path("tour", async (value) => await Tour.findById(value));
+VotingsSchema.path("station").validate(
+    async (value) => await Station.findById(value)
+);
+VotingsSchema.path("tour").validate(
+    async (value) => await Tour.findById(value)
+);
 
 const Votings = mongoose.model("votings", VotingsSchema);
 

@@ -3,7 +3,7 @@ const { School } = require("./schools-schema");
 const { logger } = require("../logging");
 
 const create = async (req, res) => {
-    logger.debug(`Schools - adding a new school: ${req.body}`);
+    logger.debug(`Schools - adding a new school: ${JSON.stringify(req.body)}`);
 
     try {
         let newSchool = await School.create(req.body);
@@ -18,7 +18,9 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    logger.debug(`Schools - fetching schools with filter ${req.query}`);
+    logger.debug(
+        `Schools - fetching schools with filter ${JSON.stringify(req.query)}`
+    );
 
     // never do this in the real world > do not blindly accept client queries!!!
     // Comment: added express-mongo-sanitize to prevent arbitrary queries

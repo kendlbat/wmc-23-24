@@ -1,0 +1,30 @@
+@baseurl = http://127.0.0.1:8080/api
+
+### GET all votings
+GET {{baseurl}/votings
+Accept: application/json
+
+### GET voting by id
+GET {{baseurl}/votings/53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93
+Accept: application/json
+
+### POST valid voting
+POST {{baseurl}/votings
+Content-Type: application/json
+
+{
+    "numStars": 4,
+    "station": "53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93",
+    "tour": "53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93"
+}
+
+### POST invalid voting - numStars not a number
+POST {{baseurl}/votings
+{
+    "numStars": "gerd",
+    "station": "53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93",
+    "tour": "53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93"
+}
+
+### DELETE voting by id
+DELETE {{baseurl}}/votings/53616c7465645f5f89ace4c3f8149a259a0c095dc0895608c2abb62a8ca2df7d5eae4d749879aabdcdf359512b06013c993793845f4e0541ee284726af3b7e93

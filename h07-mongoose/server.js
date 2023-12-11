@@ -11,6 +11,7 @@ dotenv.config();
 const toursHandlers = require("./tours/tours-handlers");
 const schoolsHandlers = require("./schools/schools-handlers");
 const stationsHandlers = require("./stations/stations-handlers");
+const votingsHandlers = require("./votings/votings-handlers");
 const { setupDBConnection, dropCurrentDatabase } = require("./database");
 
 logger.info("Backend - Starting up...");
@@ -50,6 +51,13 @@ stationsRoute.get("/", stationsHandlers.getAll);
 stationsRoute.get("/:id", stationsHandlers.getById);
 stationsRoute.post("/", stationsHandlers.create);
 stationsRoute.delete("/:id", stationsHandlers.deleteById);
+
+const votingsRoute = new express.Router();
+apiRoute.use("/votings", votingsRoute);
+votingsRoute.get("/", votingsHandlers.getAll);
+votingsRoute.get("/:id", votingsHandlers.getById);
+votingsRoute.post("/", votingsHandlers.create);
+votingsRoute.delete("/:id", votingsHandlers.deleteById);
 
 // create HTTP server
 const httpServer = http.createServer(app);

@@ -3,7 +3,9 @@ const { Station } = require("./stations-model");
 const { logger } = require("../logging");
 
 const create = async (req, res) => {
-    logger.debug(`Stations - adding a new station: ${req.body}`);
+    logger.debug(
+        `Stations - adding a new station: ${JSON.stringify(req.body)}`
+    );
 
     try {
         if (!req.body?.roomNumber)
@@ -55,7 +57,9 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    logger.debug(`Stations - fetching stations with filter ${req.query}`);
+    logger.debug(
+        `Stations - fetching stations with filter ${JSON.stringify(req.query)}`
+    );
 
     // never do this in the real world > do not blindly accept client queries!!!
     let resultSet = await Station.find(req.query);
