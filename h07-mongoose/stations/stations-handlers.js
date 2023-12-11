@@ -11,7 +11,7 @@ const create = async (req, res) => {
 
         let roomStationCount = await Station.count({
             roomNumber: req.body.roomNumber,
-        });
+        }).limit(4);
 
         if (roomStationCount >= 3)
             return res
@@ -22,7 +22,7 @@ const create = async (req, res) => {
 
         let sameTitleCount = await Station.count({
             title: req.body.title,
-        });
+        }).limit(6);
 
         if (sameTitleCount >= 5)
             return res
@@ -34,7 +34,7 @@ const create = async (req, res) => {
         let sameTitleSameSubtitle = await Station.count({
             title: req.body.title,
             subtitle: req.body.subtitle,
-        });
+        }).limit(1);
 
         if (sameTitleSameSubtitle >= 1)
             return res
