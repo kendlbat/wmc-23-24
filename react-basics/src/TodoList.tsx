@@ -1,32 +1,36 @@
 import React from "react";
 
 const TodoList: React.FunctionComponent<{
-    person: {
-        name: string;
-        theme: {
-            backgroundColor: string;
-            color: string;
+    person?: {
+        name?: string;
+        theme?: {
+            backgroundColor?: string;
+            color?: string;
         };
-        avatarUrl: string;
+        avatarUrl?: string;
+        todo?: string[];
     };
 }> = ({
-    person = {
-        name: "Hedy Lamarr",
-        avatarUrl: "https://i.imgur.com/yXOvdOSs.jpg",
-        theme: {
-            color: "pink",
-            backgroundColor: "black",
-        },
-    },
+    person
 }) => {
+    if (!person) person = {};
+    if (!person.avatarUrl) person.avatarUrl = "https://i.imgur.com/yXOvdOSs.jpg";
+    if (!person.name) person.name = "Hedy Lamarr";
+    if (!person.theme) person.theme = {};
+    if (!person.theme.color) person.theme.color = "black";
+    if (!person.theme.backgroundColor) person.theme.backgroundColor = "rgba(0, 0, 0, 0)";
+    if (!person.todo) person.todo = ["Invent new traffic lights", "Rehearse a movie scene", "Improve the spectrum technology"];
+
     return (
         <div style={person.theme}>
             <h3>{person.name}&apos;s Todos</h3>
             <img src={person.avatarUrl} alt={person.name} className="avatar" />
             <ul>
-                <li>Invent new traffic lights</li>
-                <li>Rehearse a movie scene</li>
-                <li>Improve the spectrum technology</li>
+                {
+                    person.todo.map((todo) => (
+                        <li>{todo}</li>
+                    ))
+                }
             </ul>
         </div>
     );
