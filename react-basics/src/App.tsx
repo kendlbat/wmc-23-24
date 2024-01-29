@@ -1,12 +1,13 @@
 import "./App.css";
 
 import { useState } from "react";
+import React from "react";
 
-import TaskCard from "./TaskCard.jsx";
-import Placeholder from "./Placeholder.jsx";
-import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
+import TaskCard, { Task } from "./TaskCard";
+import Placeholder from "./Placeholder";
+import ColumnVisibilityControl from "./ColumnVisibilityControl";
 
-import MyFirstApp from "./school/react-intro/MyFirstApp.js";
+import MyFirstApp from "./school/react-intro/MyFirstApp";
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -36,23 +37,37 @@ export default function App() {
         },
     ];
 
-    function openTask(task) {
+    function openTask(task: Task) {
         setCurrentTask(task);
     }
 
-    const [currentTask, setCurrentTask] = useState({});
+    const [currentTask, setCurrentTask] = useState<Task>();
     const [columnsToShow, setColumnsToShow] = useState({
         showHome: true,
         showSchool: true,
         showComponent: true,
     });
 
-    function changeColumnToShow(event) {
-        const newState = { ...columnsToShow };
-        newState[event.target.id] = !newState[event.target.id];
+    const changeColumnToShow: React.ChangeEventHandler<HTMLInputElement> =
+        function (event) {
+            const newState = { ...columnsToShow };
 
-        setColumnsToShow(newState);
-    }
+            switch (event.target.id) {
+                case "showSchool":
+                    newState.showSchool = !newState.showSchool;
+                    break;
+                case "showHome":
+                    newState.showHome = !newState.showHome;
+                    break;
+                case "showComponent":
+                    newState.showComponent = !newState.showComponent;
+                    break;
+                default:
+                    throw new TypeError("Invalid event target id!");
+            }
+
+            setColumnsToShow(newState);
+        };
 
     return (
         <div className="wmc4-app">
@@ -100,7 +115,7 @@ export default function App() {
                 {columnsToShow["showComponent"] && (
                     <div className="col col-scrollable border-end">
                         <div className="p-3">
-                            {currentTask.key && (
+                            {currentTask?.key && (
                                 <div>
                                     <h2>
                                         {currentTask.title} ({currentTask.key})
