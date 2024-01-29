@@ -1,6 +1,7 @@
+import React from "react";
 import Profile from "./Profile";
 
-export default function Gallery() {
+const Gallery: React.FunctionComponent = function () {
     return (
         <section>
             <h3>Amazing scientists</h3>
@@ -11,4 +12,6 @@ export default function Gallery() {
             <Profile></Profile>
         </section>
     );
-}
+};
+
+export default Gallery;
