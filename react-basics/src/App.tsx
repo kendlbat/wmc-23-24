@@ -9,7 +9,7 @@ import ColumnVisibilityControl from "./ColumnVisibilityControl";
 
 import MyFirstApp from "./school/react-intro/MyFirstApp";
 
-import HomeworkEight from "./homework/h08-react-nested-components-and-props/H08";
+import HomeworkEight from "./homework/h08-react-nested-components-and-props/HomeworkEight";
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -51,17 +51,17 @@ export default function App() {
             const newState = { ...columnsToShow };
 
             switch (event.target.id) {
-            case "showSchool":
-                newState.showSchool = !newState.showSchool;
-                break;
-            case "showHome":
-                newState.showHome = !newState.showHome;
-                break;
-            case "showComponent":
-                newState.showComponent = !newState.showComponent;
-                break;
-            default:
-                throw new TypeError("Invalid event target id!");
+                case "showSchool":
+                    newState.showSchool = !newState.showSchool;
+                    break;
+                case "showHome":
+                    newState.showHome = !newState.showHome;
+                    break;
+                case "showComponent":
+                    newState.showComponent = !newState.showComponent;
+                    break;
+                default:
+                    throw new TypeError("Invalid event target id!");
             }
 
             setColumnsToShow(newState);
