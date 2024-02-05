@@ -32,7 +32,7 @@ const TodoList: React.FunctionComponent<{
             <img src={person.avatarUrl} alt={person.name} className="avatar" />
             <ul>
                 {person.todo.map((todo) => (
-                    <li>{todo}</li>
+                    <li key={todo}>{todo}</li>
                 ))}
             </ul>
         </div>

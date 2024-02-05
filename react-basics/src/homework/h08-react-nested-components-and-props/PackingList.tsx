@@ -6,10 +6,10 @@ const PackingList: React.FC<{
 }> = function ({ items }) {
     return (
         <section>
-            <h1>Sally Ride's Packing List</h1>
+            <h1>Sally Ride&apos;s Packing List</h1>
             <ul>
                 {items.map((i) => (
-                    <Item {...i}></Item>
+                    <Item key={i.id} {...i}></Item>
                 ))}
             </ul>
         </section>

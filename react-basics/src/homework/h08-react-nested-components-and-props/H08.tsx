@@ -1,7 +1,7 @@
 import React from "react";
 import PackingList from "./PackingList";
 
-const H08: React.FunctionComponent<{}> = function () {
+const HomeworkEight: React.FC = function () {
     return (
         <PackingList
             items={[
@@ -25,4 +25,4 @@ const H08: React.FunctionComponent<{}> = function () {
     );
 };
 
-export default H08;
+export default HomeworkEight;

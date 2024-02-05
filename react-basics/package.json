@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
     "dependencies": {
@@ -21,6 +21,7 @@
         "@stylistic/eslint-plugin-js": "^1.5.3",
         "@types/react": "^18.2.47",
         "@types/react-dom": "^18.2.18",
+        "@typescript-eslint/eslint-plugin": "^6.20.0",
         "@vitejs/plugin-react": "^4.2.1",
         "eslint": "^8.56.0",
         "eslint-plugin-react": "^7.33.2",

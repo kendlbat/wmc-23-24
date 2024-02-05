@@ -18,4 +18,15 @@ module.exports = {
         ],
         "@stylistic/js/indent": ["error", 4],
     },
+    overrides: [
+        {
+            files: ["*.ts", "*.tsx"],
+            extends: [
+                "plugin:@typescript-eslint/eslint-recommended",
+                "plugin:@typescript-eslint/recommended",
+            ],
+            parser: "@typescript-eslint/parser",
+            plugins: ["@typescript-eslint"],
+        },
+    ],
 };
