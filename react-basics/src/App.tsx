@@ -10,6 +10,7 @@ import ColumnVisibilityControl from "./ColumnVisibilityControl";
 import MyFirstApp from "./school/react-intro/MyFirstApp";
 
 import HomeworkEight from "./homework/h08-react-nested-components-and-props/HomeworkEight";
+import HomeworkNine from "./homework/h09-react-rendering-and-state/H09";
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -32,6 +33,12 @@ export default function App() {
             title: "h08",
             desc: "React nested components and props",
             component: <HomeworkEight />,
+        },
+        {
+            key: "h09",
+            title: "h09",
+            desc: "React rendering and state",
+            component: <HomeworkNine />,
         },
     ];
 
