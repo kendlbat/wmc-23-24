@@ -42,8 +42,9 @@ const ClickTracker: React.FC = () => {
             </button>
             <div className="form-group">
                 <label htmlFor="timestamps">
-                    You have clicked the button X times. TimeStamps of
-                    click-events listed below - youngest event on top:
+                    You have clicked the button {clicks.length} times.
+                    TimeStamps of click-events listed below - youngest event on
+                    top:
                 </label>
                 <textarea
                     className="form-control"
