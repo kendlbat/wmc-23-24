@@ -16,7 +16,7 @@ module.exports = {
             "warn",
             { allowConstantExport: true },
         ],
-        "@stylistic/js/indent": ["error", 4],
+        "@stylistic/js/indent": ["error", 4, { "SwitchCase": 1 }],
     },
     overrides: [
         {

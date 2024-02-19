@@ -56,8 +56,8 @@ const StartingList: React.FC<{
                 </tr>
             </thead>
             <tbody>
-                {boats.map((boat) => (
-                    <tr>
+                {boats.map((boat, idx) => (
+                    <tr key={idx}>
                         <td>{boat.number}</td>
                         <td>{boat.name}</td>
                         <td>{boat.skipper}</td>
@@ -76,8 +76,8 @@ const StartingList: React.FC<{
                         {boats.reduce(
                             (min, curr) => Math.min(min, curr.lengthInM),
                             boats[0].lengthInM || 0
-                        )}{" "}
-                        -{" "}
+                        )}
+                        {" - "}
                         {boats.reduce(
                             (max, curr) => Math.max(max, curr.lengthInM),
                             boats[0].lengthInM || 0
