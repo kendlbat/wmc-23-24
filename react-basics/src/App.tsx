@@ -11,6 +11,7 @@ import MyFirstApp from "./school/react-intro/MyFirstApp";
 
 import HomeworkEightA from "./homework/h08a-react-nested-components-and-props/HomeworkEightA";
 import HomeworkEightB from "./homework/h08b-react-rendering-and-state/HomeworkEightB";
+import HomeworkEightC from "./homework/h08c-react-state2/HomeworkEightC";
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -39,6 +40,12 @@ export default function App() {
             title: "h08b",
             desc: "React rendering and state",
             component: <HomeworkEightB />,
+        },
+        {
+            key: "h08c",
+            title: "h08c",
+            desc: "React state 2",
+            component: <HomeworkEightC />,
         },
     ];
 
