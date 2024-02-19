@@ -3,9 +3,7 @@ import Task from "./model/Task";
 
 const TaskList: React.FC<{
     tasks: Array<Task>;
-    colors: {
-        [prio: string]: string;
-    };
+    colors: Record<Task["prio"], string>;
 }> = ({ tasks, colors }) => {
     /*
 
