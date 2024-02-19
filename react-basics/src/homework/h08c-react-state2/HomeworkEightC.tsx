@@ -1,7 +1,12 @@
 import React from "react";
+import TextStats from "./TextStats";
 
 const HomeworkEightC: React.FC = () => {
-    return <></>;
+    return (
+        <>
+            <TextStats />
+        </>
+    );
 };
 
 export default HomeworkEightC;
