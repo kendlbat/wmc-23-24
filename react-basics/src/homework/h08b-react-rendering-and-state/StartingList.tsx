@@ -43,6 +43,14 @@ const StartingList: React.FC<{
         );
     }
 
+    const minAndMax: { min: number; max: number } = boats.reduce(
+        (data, curr) => ({
+            min: Math.min(data.min, curr.lengthInM),
+            max: Math.max(data.max, curr.lengthInM),
+        }),
+        { min: Infinity, max: -Infinity }
+    );
+
     return (
         <Table striped bordered hover>
             <thead>
@@ -73,15 +81,9 @@ const StartingList: React.FC<{
                     <td>-</td>
                     <td>-</td>
                     <td>
-                        {boats.reduce(
-                            (min, curr) => Math.min(min, curr.lengthInM),
-                            boats[0].lengthInM || 0
-                        )}
+                        {minAndMax.min}
                         {" - "}
-                        {boats.reduce(
-                            (max, curr) => Math.max(max, curr.lengthInM),
-                            boats[0].lengthInM || 0
-                        )}
+                        {minAndMax.max}
                     </td>
                     <td>-</td>
                     <td>-</td>
