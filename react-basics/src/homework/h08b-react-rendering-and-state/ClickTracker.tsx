@@ -28,7 +28,6 @@ const ClickTracker: React.FC = () => {
                 className="btn btn-primary"
                 onClick={(e) => {
                     setClicks([
-                        ...clicks,
                         {
                             time: new Date(),
                             pos: {
@@ -36,6 +35,7 @@ const ClickTracker: React.FC = () => {
                                 y: e.clientY,
                             },
                         },
+                        ...clicks,
                     ]);
                 }}>
                 Click me
