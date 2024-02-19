@@ -5,7 +5,7 @@ import * as boatData from "./data/StartingList-data";
 import TaskList from "./TaskList";
 import * as taskData from "./data/TaskList-data";
 
-const HomeworkNine: React.FC = () => {
+const HomeworkEightB: React.FC = () => {
     return (
         <>
             <h2>Click Tracker</h2>
@@ -24,4 +24,4 @@ const HomeworkNine: React.FC = () => {
     );
 };
 
-export default HomeworkNine;
+export default HomeworkEightB;

@@ -1,7 +1,7 @@
 import React from "react";
 import PackingList from "./PackingList";
 
-const HomeworkEight: React.FC = function () {
+const HomeworkEightA: React.FC = function () {
     return (
         <PackingList
             items={[
@@ -25,4 +25,4 @@ const HomeworkEight: React.FC = function () {
     );
 };
 
-export default HomeworkEight;
+export default HomeworkEightA;
