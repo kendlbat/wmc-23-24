@@ -13,7 +13,7 @@ const TextStats: React.FC = () => {
      * Verwenden Sie für Ihre Lösung die bereits vorgegebenen Funktionen.
      */
 
-    let [text, setText] = useState("");
+    const [text, setText] = useState("");
 
     function countWords(text: string): number {
         text = text.trim();
