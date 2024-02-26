@@ -1,24 +1,34 @@
 import "./App.css";
 
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import React from "react";
 
 import TaskCard, { Task } from "./TaskCard";
-import Placeholder from "./Placeholder";
 import ColumnVisibilityControl from "./ColumnVisibilityControl";
 
-import MyFirstApp from "./school/react-intro/MyFirstApp";
+const MyFirstApp = lazy(() => import("./school/react-intro/MyFirstApp"));
 
-import HomeworkEightA from "./homework/h08a-react-nested-components-and-props/HomeworkEightA";
-import HomeworkEightB from "./homework/h08b-react-rendering-and-state/HomeworkEightB";
-import HomeworkEightC from "./homework/h08c-react-state2/HomeworkEightC";
+const HomeworkEightA = lazy(
+    () =>
+        import(
+            "./homework/h08a-react-nested-components-and-props/HomeworkEightA"
+        )
+);
+const HomeworkEightB = lazy(
+    () => import("./homework/h08b-react-rendering-and-state/HomeworkEightB")
+);
+const HomeworkEightC = lazy(
+    () => import("./homework/h08c-react-state2/HomeworkEightC")
+);
+
+const PupilEditor = lazy(() => import("./school/pupil-editor/PupilEditor"));
 
 export default function App() {
     const SCHOOLS_TASKS = [
         {
             key: "s02",
-            title: "Placeholder 02",
-            component: <Placeholder />,
+            title: "Pupil Editor",
+            component: <PupilEditor />,
         },
         {
             key: "s01",
@@ -132,7 +142,9 @@ export default function App() {
                                     <h2>
                                         {currentTask.title} ({currentTask.key})
                                     </h2>
-                                    {currentTask.component}
+                                    <Suspense fallback={<p>Loading</p>}>
+                                        {currentTask.component}
+                                    </Suspense>
                                 </div>
                             )}
                         </div>
