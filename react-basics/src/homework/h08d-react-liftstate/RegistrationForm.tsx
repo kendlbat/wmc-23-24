@@ -6,7 +6,13 @@ import Boat, { isBoat } from "./model/Boat";
 const RegistrationForm: React.FC<{
     addBoat: (boat: Boat) => void;
 }> = ({ addBoat }) => {
-    const [boat, setBoat] = useState<Partial<Boat>>({});
+    const initialBoat: Partial<Boat> = {
+        cruiser: false,
+        name: "",
+        skipper: "",
+    };
+
+    const [boat, setBoat] = useState<Partial<Boat>>({ ...initialBoat });
 
     const handleChange: React.ChangeEventHandler = (e) => {
         const { name, value } = e.target as HTMLInputElement;
@@ -17,9 +23,10 @@ const RegistrationForm: React.FC<{
         <Form
             onSubmit={() => {
                 const b = { ...boat, number: 0 };
+                console.log(b);
                 if (isBoat(b)) {
                     addBoat(b);
-                    setBoat({});
+                    setBoat({ ...initialBoat });
                 }
             }}
             action="javascript:void(0);">
