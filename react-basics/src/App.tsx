@@ -8,22 +8,11 @@ import ColumnVisibilityControl from "./ColumnVisibilityControl";
 
 const MyFirstApp = lazy(() => import("./school/react-intro/MyFirstApp"));
 
-const HomeworkEightA = lazy(
-    () =>
-        import(
-            "./homework/h08a-react-nested-components-and-props/HomeworkEightA"
-        )
-);
-const HomeworkEightB = lazy(
-    () => import("./homework/h08b-react-rendering-and-state/HomeworkEightB")
-);
-const HomeworkEightC = lazy(
-    () => import("./homework/h08c-react-state2/HomeworkEightC")
-);
+const HomeworkEightA = lazy(() => import("./homework/h08a/HomeworkEightA"));
+const HomeworkEightB = lazy(() => import("./homework/h08b/HomeworkEightB"));
+const HomeworkEightC = lazy(() => import("./homework/h08c/HomeworkEightC"));
 
-const HomeworkEightD = lazy(
-    () => import("./homework/h08d-react-liftstate/HomeworkEightD")
-);
+const HomeworkEightD = lazy(() => import("./homework/h08d/HomeworkEightD"));
 
 const PupilEditor = lazy(() => import("./school/pupil-editor/PupilEditor"));
 
