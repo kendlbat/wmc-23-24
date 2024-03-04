@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useState } from "react";
 
 import TaskCard, { Task } from "./TaskCard";
 import ColumnVisibilityControl from "./ColumnVisibilityControl";
+const DemoForm = lazy(() => import("./school/form-intro/DemoForm"));
 
 const MyFirstApp = lazy(() => import("./school/react-intro/MyFirstApp"));
 
@@ -15,7 +16,12 @@ const HomeworkEightD = lazy(() => import("./homework/h08d/HomeworkEightD"));
 const PupilEditor = lazy(() => import("./school/pupil-editor/PupilEditor"));
 
 export default function App() {
-    const SCHOOLS_TASKS = [
+    const SCHOOLS_TASKS: Array<Task> = [
+        {
+            key: "s03",
+            title: "Demo Form",
+            component: <DemoForm />,
+        },
         {
             key: "s02",
             title: "Pupil Editor",
@@ -29,7 +35,7 @@ export default function App() {
         },
     ];
 
-    const HOME_TASKS = [
+    const HOME_TASKS: Array<Task> = [
         {
             key: "h08a",
             title: "h08a",

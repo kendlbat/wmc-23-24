@@ -4,7 +4,7 @@ export interface Task {
     title: string;
     desc?: string;
     key: string;
-    component: JSX.Element;
+    component: React.ReactElement;
 }
 
 const TaskCard: React.FunctionComponent<{
