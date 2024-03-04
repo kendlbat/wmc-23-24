@@ -1,0 +1,52 @@
+[
+  {
+    "firstname": "Max",
+    "lastname": "Mustermann",
+    "id": "609eab05e8ae56f9e3d9b1a3"
+  },
+  {
+    "firstname": "Anna",
+    "lastname": "Schmidt",
+    "id": "609eab05e8ae56f9e3d9b1a4"
+  },
+  {
+    "firstname": "Kevin",
+    "lastname": "Müller",
+    "id": "609eab05e8ae56f9e3d9b1a5"
+  },
+  {
+    "firstname": "Laura",
+    "lastname": "Schneider",
+    "id": "609eab05e8ae56f9e3d9b1a6"
+  },
+  {
+    "firstname": "Jonas",
+    "lastname": "Fischer",
+    "id": "609eab05e8ae56f9e3d9b1a7"
+  },
+  {
+    "firstname": "Sarah",
+    "lastname": "Weber",
+    "id": "609eab05e8ae56f9e3d9b1a8"
+  },
+  {
+    "firstname": "Felix",
+    "lastname": "Wagner",
+    "id": "609eab05e8ae56f9e3d9b1a9"
+  },
+  {
+    "firstname": "Lena",
+    "lastname": "Becker",
+    "id": "609eab05e8ae56f9e3d9b1aa"
+  },
+  {
+    "firstname": "Julia",
+    "lastname": "Hoffmann",
+    "id": "609eab05e8ae56f9e3d9b1ab"
+  },
+  {
+    "firstname": "Tim",
+    "lastname": "Schulz",
+    "id": "609eab05e8ae56f9e3d9b1ac"
+  }
+]
