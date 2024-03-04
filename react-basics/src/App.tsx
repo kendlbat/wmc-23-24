@@ -1,7 +1,6 @@
 import "./App.css";
 
-import { Suspense, lazy, useState } from "react";
-import React from "react";
+import React, { Suspense, lazy, useState } from "react";
 
 import TaskCard, { Task } from "./TaskCard";
 import ColumnVisibilityControl from "./ColumnVisibilityControl";
@@ -11,7 +10,6 @@ const MyFirstApp = lazy(() => import("./school/react-intro/MyFirstApp"));
 const HomeworkEightA = lazy(() => import("./homework/h08a/HomeworkEightA"));
 const HomeworkEightB = lazy(() => import("./homework/h08b/HomeworkEightB"));
 const HomeworkEightC = lazy(() => import("./homework/h08c/HomeworkEightC"));
-
 const HomeworkEightD = lazy(() => import("./homework/h08d/HomeworkEightD"));
 
 const PupilEditor = lazy(() => import("./school/pupil-editor/PupilEditor"));
