@@ -12,6 +12,7 @@ const HomeworkEightA = lazy(() => import("./homework/h08a/HomeworkEightA"));
 const HomeworkEightB = lazy(() => import("./homework/h08b/HomeworkEightB"));
 const HomeworkEightC = lazy(() => import("./homework/h08c/HomeworkEightC"));
 const HomeworkEightD = lazy(() => import("./homework/h08d/HomeworkEightD"));
+const HomeworkEightE = lazy(() => import("./homework/h08e/HomeworkEightE"));
 
 const PupilEditor = lazy(() => import("./school/pupil-editor/PupilEditor"));
 
@@ -59,6 +60,12 @@ export default function App() {
             title: "h08d",
             desc: "React liftstate",
             component: <HomeworkEightD />,
+        },
+        {
+            key: "h08e",
+            title: "h08e",
+            desc: "React mixed exercises",
+            component: <HomeworkEightE />,
         },
     ];
 
