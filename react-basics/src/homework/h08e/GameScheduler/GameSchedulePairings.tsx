@@ -5,10 +5,14 @@ const GameSchedulePairings: React.FC<{
 }> = ({ pairings }) => {
     return (
         <div>
-            <h2>Paarungen</h2>
+            <h2>Paarungen ({pairings.length})</h2>
             <ul>
                 {pairings.map((p, idx) => (
-                    <li key={idx}></li>
+                    <li key={idx}>
+                        {p[0]}
+                        {" vs. "}
+                        {p[1]}
+                    </li>
                 ))}
             </ul>
         </div>

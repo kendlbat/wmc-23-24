@@ -88,13 +88,14 @@ const BinaryCalc: React.FC = () => {
                 <Form.Label>Dezimalwert</Form.Label>
                 <Form.Control
                     type="number"
-                    min="0"
-                    max="63"
+                    min={0}
+                    max={63}
                     name="decimalValue"
                     value={value}
                     onChange={(e) => {
                         const target = e.target as HTMLInputElement;
                         const evValue = parseInt(target.value);
+                        if (evValue < 0 || evValue > 63) return;
                         if (!isNaN(evValue)) setValue(evValue);
                         else setValue(0);
                     }}

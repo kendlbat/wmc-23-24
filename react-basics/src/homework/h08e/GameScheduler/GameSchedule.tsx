@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import GameScheduleTeams from "./GameScheduleTeams";
 import GameSchedulePairings from "./GameSchedulePairings";
 
@@ -14,14 +14,21 @@ const GameSchedule: React.FC = () => {
      *
      */
 
+    const [teams, setTeams] = useState<Array<string>>(["AUT", "GER", "ITA"]);
+
     return (
         <div className="container-fluid ">
             <div className="row">
                 <div className="col-4">
-                    <GameScheduleTeams />
+                    <GameScheduleTeams teams={teams} setTeams={setTeams} />
                 </div>
                 <div className="col-8">
-                    <GameSchedulePairings />
+                    <GameSchedulePairings
+                        pairings={teams.flatMap(
+                            (v, i): Array<Array<string>> =>
+                                teams.slice(i + 1).map((t) => [v, t])
+                        )}
+                    />
                 </div>
             </div>
         </div>
