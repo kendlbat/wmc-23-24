@@ -1,0 +1,33 @@
+@baseurl = http://127.0.0.1:8080/api
+
+### GET all stations
+GET {{baseurl}}/stations
+
+### POST valid station
+POST {{baseurl}}/stations
+Content-Type: application/json
+
+{
+    "title": "Smart Home",
+    "subtitle": "4BHIF",
+    "roomNumber": 142,
+    "interactive": true
+}
+
+### POST invalid station with missing roomNumber
+POST {{baseurl}}/stations
+Content-Type: application/json
+
+{
+    "title": "Invalid station",
+    "subtitle": "4BHIF",
+    "interactive": true
+}
+
+### GET station by id - id needs to be adapted of course
+GET {{baseurl}}/stations/65326f5fec6cd87154f9db87
+
+
+### DELETE station by id - id needs to be adapted of course
+DELETE {{baseurl}}/stations/65328ace54c94b20bcfab7a8
+

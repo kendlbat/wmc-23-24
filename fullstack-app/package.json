@@ -1,0 +1,28 @@
+{
+    "name": "tdot-backend",
+    "version": "1.0.0",
+    "description": "Backend for TdoT using Express and Mongoose",
+    "main": "server.js",
+    "scripts": {
+        "fill-demo-data": "node fill-demo-data.js",
+        "test": "cross-env MONGODB_CONNECTION_STRING=mongodb://[::1]:50000 mocha tests --recursive",
+        "start": "node server.js",
+        "test-debug": "cross-env LOG_LEVEL=debug MONGODB_CONNECTION_STRING=mongodb://[::1]:50000/mongo-test mocha tests --recursive",
+        "dev": "nodemon server.js"
+    },
+    "author": "KON+KAA",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-mongo-sanitize": "^2.2.0",
+        "mongoose": "^7.6.3",
+        "winston": "^3.11.0"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "mocha": "^10.2.0",
+        "nodemon": "^3.1.0",
+        "supertest": "^6.3.3"
+    }
+}

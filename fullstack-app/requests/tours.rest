@@ -1,0 +1,57 @@
+@baseurl = http://127.0.0.1:8080/api
+
+### GET all tours
+GET {{baseurl}}/tours
+
+### POST valid tour
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "Emily Davis",
+    "guideClass": "3BHIF",
+    "numPersons": 3,
+    "registration": false
+}
+
+### POST valid tour with reference to station (switch out id)
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "Emily Erdbeer",
+    "guideClass": "4BHIF",
+    "registration": false,
+    "numPersons": 3,
+    "favoriteStation": "6576e27a5900d0bf03a1f252"
+}
+
+### POST invalid tour with invalid class and missing numPersons
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "Emily Davis",
+    "guideClass": "3xHIF",
+    "registration": false
+}
+
+### POST tour with missing reference to favStation
+POST {{baseurl}}/tours
+Content-Type: application/json
+
+{
+    "guideName": "El Guidos",
+    "guideClass": "3BHIF",
+    "registration": false,
+    "numPersons": 3,
+    "favoriteStation": "Gerd"
+}
+
+### GET tour by id - id needs to be adapted of course
+GET {{baseurl}}/tours/65326f5fec6cd87154f9db87
+
+
+### DELETE tour by id - id needs to be adapted of course
+DELETE {{baseurl}}/tours/65328ace54c94b20bcfab7a8
+

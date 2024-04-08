@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Digitaler Horizont",
+        "subtitle": " Erkunde die Möglichkeiten der Informatik",
+        "roomNumber": 102,
+        "interactive": true
+    },
+    {
+        "title": "Bits und Bytes",
+        "subtitle": " Eine Reise durch die Informatik",
+        "roomNumber": 101,
+        "interactive": false
+    },
+    {
+        "title": "Hack the Future",
+        "subtitle": " Spannende Einblicke in die Welt des Programmierens",
+        "roomNumber": 100,
+        "interactive": true
+    },
+    {
+        "title": "Code-Mania",
+        "subtitle": " Entdecke die Welt der Informatik",
+        "roomNumber": 100,
+        "interactive": true
+    },
+    {
+        "title": "Informatik live erleben",
+        "subtitle": " Mach mit bei unseren interaktiven Workshops",
+        "roomNumber": 102,
+        "interactive": true
+    },
+    {
+        "title": "Diplomarbeiten",
+        "roomNumber": 140,
+        "interactive": false
+    }
+]

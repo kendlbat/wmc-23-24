@@ -1,0 +1,41 @@
+@baseurl = http://127.0.0.1:8080/api
+
+### GET all schools
+GET {{baseurl}}/schools
+
+### POST valid school
+POST {{baseurl}}/schools
+Content-Type: application/json
+
+{
+    "code": 202417,
+    "title": "HTL Villach",
+    "address": {
+        "zipCode": 9500,
+        "city": "Villach",
+        "street": "Tschinowitscherweg 5"
+    },
+    "category": "BHS"
+}
+
+### POST invalid school with invalid code
+POST {{baseurl}}/schools
+Content-Type: application/json
+
+{
+    "code": 1000011,
+    "title": "Invalid Code",
+    "address": {
+        "zipCode": 9500,
+        "city": "Villach"
+    },
+    "category": "MS"
+}
+
+### GET school by id - id needs to be adapted of course
+GET {{baseurl}}/schools/65326f5fec6cd87154f9db87
+
+
+### DELETE school by id - id needs to be adapted of course
+DELETE {{baseurl}}/schools/65328ace54c94b20bcfab7a8
+
