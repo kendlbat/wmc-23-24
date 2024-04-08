@@ -46,42 +46,42 @@ const BinaryCalc: React.FC = () => {
                 type="switch"
                 name="32"
                 label="2^5"
-                checked={value % 64 >= 32}
+                checked={(value >> 5) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Check
                 type="switch"
                 name="16"
                 label="2^4"
-                checked={value % 32 >= 16}
+                checked={(value >> 4) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Check
                 type="switch"
                 name="8"
                 label="2^3"
-                checked={value % 16 >= 8}
+                checked={(value >> 3) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Check
                 type="switch"
                 name="4"
                 label="2^2"
-                checked={value % 8 >= 4}
+                checked={(value >> 2) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Check
                 type="switch"
                 name="2"
                 label="2^1"
-                checked={value % 4 >= 2}
+                checked={(value >> 1) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Check
                 type="switch"
                 name="1"
                 label="2^0"
-                checked={value % 2 >= 1}
+                checked={(value >> 0) % 2 == 1}
                 onChange={switchHandler}
             />
             <Form.Group>
