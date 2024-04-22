@@ -84,7 +84,7 @@ httpServer.dropCurrentDatabase = async () => {
     await dropCurrentDatabase(MONGODB_CONNECTION_STRING);
 };
 
-httpServer.dropCurrentDatabase();
+// httpServer.dropCurrentDatabase();
 
 // start listening to HTTP requests
 httpServer.listen(PORT, HOSTNAME, () => {

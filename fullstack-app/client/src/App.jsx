@@ -6,6 +6,7 @@ import TaskCard from "./TaskCard";
 const Placeholder = lazy(() => import("./Placeholder.jsx"));
 const ToursTable = lazy(() => import("./school/ToursTable.jsx"));
 import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
+const SchoolsTable = lazy(() => import("./homework/h09b/SchoolsTable.jsx"));
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -18,14 +19,10 @@ export default function App() {
 
     const HOME_TASKS = [
         {
-            key: "h02",
-            title: "Placeholder 02",
-            component: <Placeholder />,
-        },
-        {
-            key: "h01",
-            title: "Placeholder 01",
-            component: <Placeholder />,
+            key: "h09b",
+            title: "h09b",
+            desc: "SchoolsTable",
+            component: <SchoolsTable />,
         },
     ];
 
