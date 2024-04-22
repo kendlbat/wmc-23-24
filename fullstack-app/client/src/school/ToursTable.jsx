@@ -28,7 +28,7 @@ const ToursTable = () => {
     useEffect(() => {
         console.log("loading tours from server");
 
-        fetch(`/api/toursa`)
+        fetch(`/api/tours`)
             .then((res) => {
                 if (!res.ok || res.status !== 200)
                     throw {
