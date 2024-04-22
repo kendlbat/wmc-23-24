@@ -2,7 +2,12 @@ import { PropTypes } from "prop-types";
 
 export default function TaskCard({ task, onClick }) {
     return (
-        <div className="card " onClick={() => onClick(task)}>
+        <div
+            className="card "
+            onClick={() => onClick(task)}
+            style={{
+                cursor: "pointer",
+            }}>
             <div className="card-body p-2">
                 <h6 className="card-title">{task.title}</h6>
                 <p className="card-text">

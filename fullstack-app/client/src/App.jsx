@@ -1,9 +1,9 @@
 import "./App.css";
 
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 
 import TaskCard from "./TaskCard";
-import Placeholder from "./Placeholder.jsx";
+const Placeholder = lazy(async () => await import("./Placeholder.jsx"));
 import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
 
 export default function App() {
@@ -102,7 +102,9 @@ export default function App() {
                                     <h2>
                                         {currentTask.title} ({currentTask.key})
                                     </h2>
-                                    {currentTask.component}
+                                    <Suspense fallback={<p>Loading</p>}>
+                                        {currentTask.component}
+                                    </Suspense>
                                 </div>
                             )}
                         </div>
