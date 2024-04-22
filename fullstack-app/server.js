@@ -60,6 +60,14 @@ votingsRoute.get("/:id", votingsHandlers.getById);
 votingsRoute.post("/", votingsHandlers.create);
 votingsRoute.delete("/:id", votingsHandlers.deleteById);
 
+// Block faulty api calls from returning the frontend
+app.use("/api", (_req, res) => {
+    res.status(404).json({
+        status: "404",
+        message: "Not found",
+    });
+});
+
 app.use(express.static(path.join(__dirname, "client", "dist")));
 app.get("*", (_req, res) => {
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

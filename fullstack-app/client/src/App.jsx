@@ -3,20 +3,16 @@ import "./App.css";
 import { Suspense, lazy, useState } from "react";
 
 import TaskCard from "./TaskCard";
-const Placeholder = lazy(async () => await import("./Placeholder.jsx"));
+const Placeholder = lazy(() => import("./Placeholder.jsx"));
+const ToursTable = lazy(() => import("./school/ToursTable.jsx"));
 import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
 
 export default function App() {
     const SCHOOLS_TASKS = [
         {
-            key: "s02",
-            title: "Placeholder 02",
-            component: <Placeholder />,
-        },
-        {
             key: "s01",
-            title: "Placeholder 01",
-            component: <Placeholder />,
+            title: "Tours",
+            component: <ToursTable />,
         },
     ];
 
@@ -55,7 +51,9 @@ export default function App() {
         <div className="wmc4-app">
             <div className="row bg-dark text-white head-row align-items-center">
                 <div className="col p-3">
-                    <h1>WMC4 - Full Stack App - TDOT 2024</h1>
+                    <h1>
+                        WMC4&nbsp;-&nbsp;Full&nbsp;Stack&nbsp;App&nbsp;-&nbsp;TDOT&nbsp;2024
+                    </h1>
                 </div>
                 <div className="col p-3 text-end">
                     <ColumnVisibilityControl
