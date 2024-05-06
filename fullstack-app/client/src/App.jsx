@@ -5,8 +5,9 @@ import { Suspense, lazy, useState } from "react";
 import TaskCard from "./TaskCard";
 const Placeholder = lazy(() => import("./Placeholder.jsx"));
 const ToursTable = lazy(() => import("./school/ToursTable.jsx"));
-import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
+const TourForm = lazy(() => import("./school/TourForm.jsx"));
 const SchoolsTable = lazy(() => import("./homework/h09b/SchoolsTable.jsx"));
+import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
 
 export default function App() {
     const SCHOOLS_TASKS = [
@@ -14,6 +15,11 @@ export default function App() {
             key: "s01",
             title: "Tours",
             component: <ToursTable />,
+        },
+        {
+            key: "s02",
+            title: "TourForm",
+            component: <TourForm />,
         },
     ];
 
