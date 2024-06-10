@@ -178,7 +178,6 @@ function Schools() {
                                                             "Failed to delete school"
                                                         );
                                                     }
-                                                    return resp.json();
                                                 })
                                                 .then(() => {
                                                     setSchools(
