@@ -73,10 +73,12 @@ const putById = async (req, resp, next) => {
         let school = await School.findById(schoolId);
 
         if (!school)
-            return next(new NotFound(`School with id ${schoolId} not found`));
+            return resp
+                .status(404)
+                .send(`School with id ${schoolId} not found`);
 
         if (school.__v != ifMatchHdr)
-            return next(new PreConditionFailed(`Version conflict`));
+            return resp.status(409).send(`Version conflict`);
 
         let updatedSchool = await School.findByIdAndUpdate(schoolId, req.body, {
             new: true,
@@ -85,13 +87,13 @@ const putById = async (req, resp, next) => {
 
         if (updatedSchool) return resp.status(200).json(updatedSchool);
 
-        return next(
-            new InternalServerError(
-                `Failed to update school with id ${schoolId}`
-            )
-        );
+        return resp
+            .status(500)
+            .send(`Failed to update school with id ${schoolId}`);
     } catch (e) {
-        next(new InternalServerError(e));
+        return resp
+            .status(500)
+            .send(`Failed to update school with id ${schoolId}`);
     }
 };
 
