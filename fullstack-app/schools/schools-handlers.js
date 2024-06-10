@@ -19,7 +19,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
     logger.debug(
-        `Schools - fetching schools with filter ${JSON.stringify(req.query)}`,
+        `Schools - fetching schools with filter ${JSON.stringify(req.query)}`
     );
 
     // never do this in the real world > do not blindly accept client queries!!!
@@ -63,9 +63,45 @@ const deleteById = async (req, res) => {
     }
 };
 
+const putById = async (req, resp, next) => {
+    try {
+        let schoolId = req.params.id;
+        logger.debug(`Schools - Update school with id=${schoolId}`);
+
+        let ifMatchHdr = req.headers["if-match"];
+
+        let school = await School.findById(schoolId);
+
+        if (!school)
+            return next(new NotFound(`School with id ${schoolId} not found`));
+
+        if (school.__v != ifMatchHdr)
+            return next(new PreConditionFailed(`Version conflict`));
+
+        let updatedSchool = await School.findByIdAndUpdate(schoolId, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (updatedSchool) return resp.status(200).json(updatedSchool);
+
+        return next(
+            new InternalServerError(
+                `Failed to update school with id ${schoolId}`
+            )
+        );
+    } catch (e) {
+        next(new InternalServerError(e));
+    }
+};
+
+const patchById = putById;
+
 module.exports = {
     create,
     getAll,
     getById,
     deleteById,
+    putById,
+    patchById,
 };

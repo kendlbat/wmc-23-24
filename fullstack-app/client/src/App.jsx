@@ -8,6 +8,7 @@ const ToursTable = lazy(() => import("./school/ToursTable.jsx"));
 const TourForm = lazy(() => import("./school/TourForm.jsx"));
 const SchoolsTable = lazy(() => import("./homework/h09b/SchoolsTable.jsx"));
 const HomeworkNineC = lazy(() => import("./homework/h09c/HomeworkNineC.jsx"));
+const SchoolEdit = lazy(() => import("./school/schoolEdit/Schools.jsx"));
 import ColumnVisibilityControl from "./ColumnVisibilityControl.jsx";
 
 export default function App() {
@@ -21,6 +22,11 @@ export default function App() {
             key: "s02",
             title: "TourForm",
             component: <TourForm />,
+        },
+        {
+            key: "s03",
+            title: "School Edit",
+            component: <SchoolEdit />,
         },
     ];
 

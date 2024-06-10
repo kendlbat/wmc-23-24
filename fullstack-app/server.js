@@ -32,6 +32,18 @@ app.use("/api", mongoSanitize());
 const apiRoute = new express.Router();
 app.use("/api", apiRoute);
 
+const checkIfMatch = (req, res, next) => {
+    const ifMatchHdr = req.headers["if-match"];
+
+    if (!ifMatchHdr) {
+        next(new BadRequest(`if-match header not provided`, err));
+        return;
+    }
+};
+
+apiRoute.put(checkIfMatch);
+apiRoute.patch(checkIfMatch);
+
 const toursRoute = new express.Router();
 apiRoute.use("/tours", toursRoute);
 toursRoute.get("/", toursHandlers.getAll);
@@ -45,6 +57,8 @@ schoolsRoute.get("/", schoolsHandlers.getAll);
 schoolsRoute.get("/:id", schoolsHandlers.getById);
 schoolsRoute.post("/", schoolsHandlers.create);
 schoolsRoute.delete("/:id", schoolsHandlers.deleteById);
+schoolsRoute.put("/:id", schoolsHandlers.putById);
+schoolsRoute.patch("/:id", schoolsHandlers.patchById);
 
 const stationsRoute = new express.Router();
 apiRoute.use("/stations", stationsRoute);
@@ -61,7 +75,7 @@ votingsRoute.post("/", votingsHandlers.create);
 votingsRoute.delete("/:id", votingsHandlers.deleteById);
 
 // Block faulty api calls from returning the frontend
-app.use("/api", (_req, res) => {
+apiRoute.use((_req, res) => {
     res.status(404).json({
         status: "404",
         message: "Not found",
