@@ -140,7 +140,7 @@ function Schools() {
 
     return (
         <>
-            <Table>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>Code</th>
