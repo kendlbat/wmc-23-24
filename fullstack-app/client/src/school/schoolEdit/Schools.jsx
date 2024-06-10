@@ -3,12 +3,25 @@ import Table from "react-bootstrap/esm/Table";
 import Form from "react-bootstrap/esm/Form";
 import { Button } from "react-bootstrap";
 
+const spreadAnyDepth = (obj, key, value) => {
+    if (key.indexOf(".") === -1) {
+        return { ...obj, [key]: value };
+    }
+
+    let keys = key.split(".");
+    let firstKey = keys.shift();
+    return {
+        ...obj,
+        [firstKey]: spreadAnyDepth(obj[firstKey] || {}, keys.join("."), value),
+    };
+};
+
 function SchoolEditForm({ school, setSchool }) {
     const [editedSchool, setEditedSchool] = React.useState({ ...school });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setEditedSchool({ ...editedSchool, [name]: value });
+        setEditedSchool(spreadAnyDepth(editedSchool, name, value));
     };
 
     const handleSubmit = (event) => {
