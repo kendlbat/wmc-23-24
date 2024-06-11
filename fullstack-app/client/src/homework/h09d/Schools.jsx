@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "react-bootstrap/esm/Table";
 import Form from "react-bootstrap/esm/Form";
 import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const spreadAnyDepth = (obj, key, value) => {
     if (key.indexOf(".") === -1) {
@@ -17,7 +18,13 @@ const spreadAnyDepth = (obj, key, value) => {
 };
 
 function SchoolEditForm({ school, setSchool }) {
-    const [editedSchool, setEditedSchool] = React.useState({ ...school });
+    const [editedSchool, setEditedSchool] = React.useState({
+        ...(school ? school : {}),
+    });
+
+    useEffect(() => {
+        setEditedSchool({ ...(school ? school : {}) });
+    }, [school]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -26,27 +33,52 @@ function SchoolEditForm({ school, setSchool }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch(`/api/schools/${school._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "if-match": school.__v,
-            },
-            body: JSON.stringify(editedSchool),
-        })
-            .then((resp) => {
-                if (!resp.ok) {
-                    throw new Error("Failed to save school");
-                }
-                return resp.json();
+
+        if (!editedSchool?._id) {
+            fetch(`/api/schools`, {
+                method: "POST",
+                body: JSON.stringify(editedSchool),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
-            .then((data) => {
-                setSchool(data);
+                .then((resp) => {
+                    if (!resp.ok) {
+                        throw new Error("Failed to save school");
+                    }
+                    return resp.json();
+                })
+                .then((data) => {
+                    setSchool(data);
+                    setEditedSchool({});
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("Failed to save school");
+                });
+        } else
+            fetch(`/api/schools/${school._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "if-match": school.__v,
+                },
+                body: JSON.stringify(editedSchool),
             })
-            .catch((err) => {
-                console.error(err);
-                alert("Failed to save school");
-            });
+                .then((resp) => {
+                    if (!resp.ok) {
+                        throw new Error("Failed to save school");
+                    }
+                    return resp.json();
+                })
+                .then((data) => {
+                    setSchool(data);
+                    setEditedSchool({});
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("Failed to save school");
+                });
     };
 
     return (
@@ -55,7 +87,7 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>Code</Form.Label>
                 <Form.Control
                     name="code"
-                    value={editedSchool.code}
+                    value={editedSchool.code || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -63,7 +95,7 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                     name="title"
-                    value={editedSchool.title}
+                    value={editedSchool.title || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -71,7 +103,7 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                     name="address.street"
-                    value={editedSchool.address.street}
+                    value={editedSchool.address?.street || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -79,7 +111,7 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>Zip Code</Form.Label>
                 <Form.Control
                     name="address.zipCode"
-                    value={editedSchool.address.zipCode}
+                    value={editedSchool.address?.zipCode || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -87,7 +119,7 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>City</Form.Label>
                 <Form.Control
                     name="address.city"
-                    value={editedSchool.address.city}
+                    value={editedSchool.address?.city || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -95,26 +127,34 @@ function SchoolEditForm({ school, setSchool }) {
                 <Form.Label>Category</Form.Label>
                 <Form.Control
                     name="category"
-                    value={editedSchool.category}
+                    value={editedSchool.category || ""}
                     onChange={handleChange}
                 />
             </Form.Group>
             <div className="mt-2 d-flex flex-row gap-2">
-                <Button type="submit">Save</Button>
+                <Button type="submit">
+                    {editedSchool?._id ? "Save" : "Create"}
+                </Button>
                 <Button
                     type="button"
-                    onClick={() => setSchool(null)}
+                    onClick={() => setEditedSchool({})}
                     variant="warning">
-                    Cancel
+                    {editedSchool?._id ? "Cancel" : "Clear"}
                 </Button>
             </div>
+            <p>You are in {editedSchool?._id ? "edit" : "create"} mode.</p>
         </Form>
     );
 }
 
+SchoolEditForm.propTypes = {
+    school: PropTypes.object,
+    setSchool: PropTypes.func,
+};
+
 function Schools() {
     const [schools, setSchools] = React.useState([]);
-    const [selectedSchool, setSelectedSchool] = React.useState(null);
+    const [selectedSchool, setSelectedSchool] = React.useState({});
 
     React.useEffect(() => {
         fetch("/api/schools")
@@ -122,20 +162,23 @@ function Schools() {
             .then((data) => setSchools(data));
     }, []);
 
-    const formComponent = selectedSchool ? (
+    const formComponent = selectedSchool._id ? (
         <SchoolEditForm
-            key={selectedSchool?._id || "undefined"}
+            key={selectedSchool._id}
             school={selectedSchool}
             setSchool={(school) => {
-                if (!school) return setSelectedSchool(null);
                 setSchools(
                     schools.map((s) => (s._id === school._id ? school : s))
                 );
-                setSelectedSchool(null);
+                setSelectedSchool({});
             }}
         />
     ) : (
-        <>Click a row to select a school to edit.</>
+        <SchoolEditForm
+            setSchool={(school) => {
+                setSchools([...schools, school]);
+            }}
+        />
     );
 
     return (
@@ -151,16 +194,16 @@ function Schools() {
                     </tr>
                 </thead>
                 <tbody>
-                    {schools.map((school) => (
+                    {schools.map((school, idx) => (
                         <tr
                             style={{
                                 cursor: "pointer",
                             }}
-                            key={school._id}>
-                            <td>{school.code}</td>
-                            <td>{school.title}</td>
-                            <td>{`${school.address.street}, ${school.address.zipCode} ${school.address.city}`}</td>
-                            <td>{school.category}</td>
+                            key={school?._id || idx}>
+                            <td>{school?.code}</td>
+                            <td>{school?.title}</td>
+                            <td>{`${school?.address?.street}, ${school?.address?.zipCode} ${school?.address?.city}`}</td>
+                            <td>{school?.category}</td>
                             <td>
                                 <div className="d-flex flex-row gap-1">
                                     <Button
